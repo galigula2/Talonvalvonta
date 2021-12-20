@@ -56,10 +56,13 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 
 ## RuuviTag (Huonelämpötilat, -kosteudet- ilmanpaineet)
 - https://github.com/Scrin/RuuviCollector (Java 8)
+  - Vaiko sittenkin Pythonpohjainen https://github.com/ttu/ruuvitag-sensor
 - Jokaisen huonetermostaatin yhteyteen oma RuuviTag + muutama muu huone missä ei ole termostaattia (esim. kodinhoito)
 - TODO: Mitä sitten jos RuuviTagit ei kuulukaan koko talosta?
   - External-antenni? / Erillinen bluetooth usb-dongle paremmall antennilla?
   - Rasperry PI Zero jonnekin tukiasemaksi? Olisiko tällä jotain muutakin käyttöä?
+  - Ilmeisesti tukee myös Mesh-noodia, mietitään
+- TODO: Tutkitaan mitä vaihtoehtoja RuuviTageilla on external sensoreille ja oman softan kirjoittamiselle
 
 ## Sähkönkulutus LED-indikaattorista
 - TODO: Oma viritys valovastuksella vai joku valmis palikka?
