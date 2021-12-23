@@ -6,9 +6,9 @@ Ajatukset toteutukselle saatiin Ville Alatalon hyvistä selonteoista
 - https://medium.com/@ville.alatalo/oma-s%C3%A4%C3%A4asema-ruuvitagilla-ja-grafanalla-25c823f20a20
 - https://medium.com/@ville.alatalo/diy-omakotitalon-l%C3%A4mmityksen-mittaaminen-ja-visualisointi-cacfcd974a44
 
-# Rasperry PI 4 Model B
+# Rasberry PI 4 Model B
 
-- Järjestelmän ytimenä toimii RasperryPI 4 Model B korttitietokone joka asennetaan tekniseen tilaan sopivasti toimilaitteiden ja verkkokaapin läheisyyteen. 
+- Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennetaan tekniseen tilaan sopivasti toimilaitteiden ja verkkokaapin läheisyyteen. 
 - Raspi kytketään IoT-wlaniin pois eikä anneta pääsyä kotiverkkoon
   - Hallintayhteys vaatii liittymisen IoT-wlaniin
   - Grafanan UI julkaistaan reitittimen läpi internettiin DynDNS tai vastaavan avulla --> myös kotiverkosta pääsee kätevästi katsomaan käyriä.
@@ -29,7 +29,7 @@ Input Power	| 5V DC via USB-C connector
 Production lifetime | 	The Raspberry Pi 4 Model B will remain in production until at least January 2026.
 
 ## Käyttöjärjestelmä
-- [Rasperry Pi OS](https://www.raspberrypi.com/software/)
+- [Rasberry Pi OS](https://www.raspberrypi.com/software/)
 
 ## Ohjelmistot
 ### InfluxDB
@@ -60,7 +60,7 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 - Jokaisen huonetermostaatin yhteyteen oma RuuviTag + muutama muu huone missä ei ole termostaattia (esim. kodinhoito)
 - TODO: Mitä sitten jos RuuviTagit ei kuulukaan koko talosta?
   - External-antenni? / Erillinen bluetooth usb-dongle paremmall antennilla?
-  - Rasperry PI Zero jonnekin tukiasemaksi? Olisiko tällä jotain muutakin käyttöä?
+  - Rasberry PI Zero jonnekin tukiasemaksi? Olisiko tällä jotain muutakin käyttöä?
   - Ilmeisesti tukee myös Mesh-noodia, mietitään
 - TODO: Tutkitaan mitä vaihtoehtoja RuuviTageilla on external sensoreille ja oman softan kirjoittamiselle
 
