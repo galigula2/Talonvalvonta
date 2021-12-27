@@ -28,8 +28,35 @@ SD card support	| Micro SD card slot for loading operating system and data stora
 Input Power	| 5V DC via USB-C connector
 Production lifetime | 	The Raspberry Pi 4 Model B will remain in production until at least January 2026.
 
-## Käyttöjärjestelmä
-- [Rasberry Pi OS](https://www.raspberrypi.com/software/)
+## Perusasetukset
+- Asennetaan [Rasberry Pi OS Lite 32 bit](https://www.raspberrypi.com/software/)
+  - Ladattu suoraan Rasberry Pi Imagerilla.
+  - Tämä myös alustaa 64Gb muistikortin FATR32:lla jolta Rasberry osaa bootata
+- Lataamisen jälkeen [enabloidaan headless imageen wifi-yhdistäminen js SSH-tuki](https://medium.com/@nikosmouroutis/how-to-setup-your-raspberry-pi-and-connect-to-it-through-ssh-and-your-local-wifi-ac53d3839be9)
+  - Windowsilla piti erikseen laittaa FAT32 boot-partitiolle drive letter jotta sinne pääsi käsiksi
+  - WIFI voitaisiin laittaa yhdistämään tietoturvasyistä erilliseen IoT-verkkoon, mutta nykyisen reitittimen rajoitusten takia näin ei tehty (lisäksi jatkossa käytetään kuitenkin langalista verkkoa jolloin tämän merkitys pienenee)
+- Käynnistetään Rasbi ja koitetaan ottaa yhteyttä
+  - SSH-yhteys laitteeseen `ssh ip@192.168.1.120`, salasana `raspberry`
+    - NOTE: As discussed [here](https://www.reddit.com/r/raspberry_pi/comments/hckfiv/can_you_explain_this_mystery_sshing_to_my_pi_4/) power management on the connecting side can cause SSH to hang after giving SSH password. On an ASUS Gaming laptop this meant that SSH was not working if the power cable was not plugged in (mostl likely this is only when in WIFI)
+  - Vaihdetaan oletussalasana toiseksi
+  - Ajetaan peruspäivitykset
+  
+- TODO: Siirretään tekniseen tilaan
+  - Täällä oikeastaan ei käytetä wifiä ollenkaan vaan mennään lankaverkolla kiinni (Wifin saa siis disabloida)
+  - Todellinen tarve tekniselle tilalle on vasta kun aletaan ottamaan sen laitteisiin kiinni. Alkuvaiheessa voidaan kuitenkin testata Ruuvitagien kantamaa ja saapa sen muutenkin pois jaloista
+  - Voiko IP vaihtua? Kiinteä IP pitää asettaa uudestaan?
+  - Pitää myös rakentaa sopiva teline mihin Raspi teknisessä tilassa pistetään (ettei tipu ja ettei tule liikaa pölyä päälle)
+  - Tarvitsee hoitaa sisäverkon kaapelointi tekniseen tilaan
+    - Reitittimeltä kaapeli takaisin talokaapeloinnin kautta tekniseen
+    - Teknisessä Raspi suoraan kiinni (tai kytkimen kautta jatkossa)
+- Asetetaan kiinteä IP reitittimen asetuksissa, esim `192.168.1.120`
+  - Luodaan reitittimen asetuksissa Port Forward-tunneli julkiverkosta SSH:ta varten kiinteän IP:n porttiin esim. `*:1234` -> `192.168.1.120:22`
+    - Nyt pitäisi saada yhteys raspiin myös ulokoverkosta
+    - TODO: Mutta ei saada, joko operaattorin päässä blokataan tämä tai reitittimien kanssa on jumppaamista
+    - TODO: Onko itseasiassa SSH:lle ulkoverkosta tarvetta? Isompi tarve on saada Grana näkyviin julkiverkosta
+
+- TODO: Hallintamekanismi
+  - Mitä käytetään normaaliin hallintaan? Tekisi mieli koittaa K3s:ää ja Fluxilla hakea GitReposta tiedot
 
 ## Ohjelmistot
 ### InfluxDB
