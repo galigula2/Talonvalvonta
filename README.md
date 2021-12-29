@@ -26,55 +26,64 @@ Input Power	| 5V DC via USB-C connector
 Production lifetime | 	The Raspberry Pi 4 Model B will remain in production until at least January 2026.
 
 ## Perusasetukset
-- Asennetaan [Rasberry Pi OS Lite 32 bit](https://www.raspberrypi.com/software/)
-  - Ladattu suoraan Rasberry Pi Imagerilla.
+- Asennetaan `Raspberry Pi OS Lite 64 bit`
+  - HUOM! 64 bittinen versio on tarpeen mm. InfluxDB:n takia (heiltä löytyy vain ARM64-docker imaget)
+  - Ladataan viimeisin 64bit Lite image: https://downloads.raspberrypi.org/raspios_lite_arm64/images/
+  - Asennetaan Raspberry Imager-sovellus ja valitaan Custom-distro ja ladattu .img-tiedosto
   - Tämä myös alustaa 64Gb muistikortin FATR32:lla jolta Rasberry osaa bootata
 - Lataamisen jälkeen [enabloidaan headless imageen wifi-yhdistäminen js SSH-tuki](https://medium.com/@nikosmouroutis/how-to-setup-your-raspberry-pi-and-connect-to-it-through-ssh-and-your-local-wifi-ac53d3839be9)
-  - Windowsilla piti erikseen laittaa FAT32 boot-partitiolle drive letter jotta sinne pääsi käsiksi
+  - Luodaan boot-partitiolle tyhjä `ssh` niminen tyhjä tiedosto joka enabloi SSH:n käynnistyksen yhteydessä
+  - Luodaan boot-partitiolle `wpa_supplicant.conf` niminen tiedosto joka kertoo mihin WIFI-verkkoon otetaan automaattisesti yhteyttä (sisältö esim [täältä](https://medium.com/@nikosmouroutis/how-to-setup-your-raspberry-pi-and-connect-to-it-through-ssh-and-your-local-wifi-ac53d3839be9))
+  - Windowsilla saattaa joutua laittamaan FAT32 boot-partitiolle drive letter jotta sinne pääsi käsiksi ja luomaan tarvittavat tiedostot
   - WIFI voitaisiin laittaa yhdistämään tietoturvasyistä erilliseen IoT-verkkoon, mutta nykyisen reitittimen rajoitusten takia näin ei tehty (lisäksi jatkossa käytetään kuitenkin langalista verkkoa jolloin tämän merkitys pienenee)
+- Asetetaan kiinteä IP reitittimen asetuksissa, esim `192.168.1.120`
 - Käynnistetään Rasbi ja koitetaan ottaa yhteyttä
   - SSH-yhteys laitteeseen `ssh ip@192.168.1.120`, salasana `raspberry`
     - NOTE: As discussed [here](https://www.reddit.com/r/raspberry_pi/comments/hckfiv/can_you_explain_this_mystery_sshing_to_my_pi_4/) power management on the connecting side can cause SSH to hang after giving SSH password. On an ASUS Gaming laptop this meant that SSH was not working if the power cable was not plugged in (mostl likely this is only when in WIFI)
-  - Vaihdetaan oletussalasana toiseksi
-  - Ajetaan peruspäivitykset
+  - Vaihdetaan oletussalasana toiseksi `passwd`-komennolla
+  - Ajetaan peruspäivitykset `sudo raspi-config`-sovelluksella
   
+- Asennetaan K3s alustaksi
+  - Rancherin ohjeet asentamiseen: https://rancher.com/docs/k3s/latest/en/quick-start/
+  - Käytännössä vaatii vähän ylimääräistä säätöä jotta toimii Raspilla
+    - Lisää `cgroup_memory=1 cgroup_enable=memory` mukaan `/boot/cmdline.txt`-tiedostoon
+    - Ajetaan `curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644`
+    - Jos klusterin käynnistäminen ei onnistu niin koita `sudo reboot` jolloin ainakin cgroup memory-muutokset astuvat voimaan ja ongelma korjaantuus
+  - Testaa klusterin toimivuus `kubectl get nodes -o wide`
+    - TODO: K3s server näyttäisi vievän 10% CPU ja 12% memoryä idlenä ollessaan. Katsotaan kannattaako tällä tiellä jatkaa?
+
 - TODO: Siirretään tekniseen tilaan
-  - Täällä oikeastaan ei käytetä wifiä ollenkaan vaan mennään lankaverkolla kiinni (Wifin saa siis disabloida)
+  - Täällä ei käytetä wifiä vaan mennään lankaverkolla kiinni (Wifin saa siis disabloida)
   - Todellinen tarve tekniselle tilalle on vasta kun aletaan ottamaan sen laitteisiin kiinni. Alkuvaiheessa voidaan kuitenkin testata Ruuvitagien kantamaa ja saapa sen muutenkin pois jaloista
   - Voiko IP vaihtua? Kiinteä IP pitää asettaa uudestaan?
   - Pitää myös rakentaa sopiva teline mihin Raspi teknisessä tilassa pistetään (ettei tipu ja ettei tule liikaa pölyä päälle)
   - Tarvitsee hoitaa sisäverkon kaapelointi tekniseen tilaan
     - Reitittimeltä kaapeli takaisin talokaapeloinnin kautta tekniseen
     - Teknisessä Raspi suoraan kiinni (tai kytkimen kautta jatkossa)
-- Asetetaan kiinteä IP reitittimen asetuksissa, esim `192.168.1.120`
-  - Luodaan reitittimen asetuksissa Port Forward-tunneli julkiverkosta SSH:ta varten kiinteän IP:n porttiin esim. `*:1234` -> `192.168.1.120:22`
-    - Nyt pitäisi saada yhteys raspiin myös ulokoverkosta
-    - TODO: Mutta ei saada, joko operaattorin päässä blokataan tämä tai reitittimien kanssa on jumppaamista
-    - TODO: Onko itseasiassa SSH:lle ulkoverkosta tarvetta? Isompi tarve on saada Grana näkyviin julkiverkosta
 
 - TODO: Hallintamekanismi
-  - Mitä käytetään normaaliin hallintaan? Tekisi mieli koittaa K3s:ää ja Fluxilla hakea GitReposta tiedot
+  - Miten kubernetesta ja muita applikaatioita hallinnoidaan? 
+
+- TODO: Luodaan reitittimen asetuksissa Port Forward-tunneli julkiverkosta SSH:ta varten kiinteän IP:n porttiin esim. `*:1234` -> `192.168.1.120:22`
+  - Nyt pitäisi saada yhteys raspiin myös ulokoverkosta
+  - TODO: Mutta ei saada, joko operaattorin päässä blokataan tämä tai reitittimien kanssa on jumppaamista
+  - TODO: Onko itseasiassa SSH:lle ulkoverkosta tarvetta? Isompi tarve on saada Grana näkyviin julkiverkosta
 
 ## Ohjelmistot
 ### InfluxDB
-- Aikasarjatietokanta mittatulostentallentamiseen
-- https://docs.influxdata.com/influxdb/v1.4/introduction/installation/
-- Varmuuskopiot
-  - TODO: Mihin varmuuskopioidaan? Pilveen vai NAS:lle? Miten usein?
-
+- Aikasarjatietokanta mittatulosten tallentamiseen
+- https://blog.anoff.io/2020-12-run-influx-on-raspi-docker-compose/ 
+- TODO: Varmuuskopiot
+  - Mihin varmuuskopioidaan? Pilveen vai NAS:lle? Miten usein?
+- TODO: Data retention policy
+  - Real time data vs history data
+  - https://docs.influxdata.com/influxdb/v2.1/process-data/common-tasks/downsample-data/
 
 ### Grafana
-- https://github.com/fg2it/grafana-on-raspberry
-- TODO: Nykytilanne-dashboard? Pohjakuvan päälle?
-    - https://grafana.com/blog/2021/08/12/streaming-real-time-sensor-data-to-grafana-using-mqtt-and-grafana-live/ (?)
-- TODO: Trendinäkymät?
-
-### Java8(?)
-- Tämä tarvitaan RuuviCollectorille, mutta onko oikeasti tarpeen? Ruuvien lukemiseen oli myös Python-kirjastoja
-                                                     
-### Python(?)
-
-### Apuohjelmat
+- Visualisointityöalu aikasarjadatalle
+- Tarjotaan ulos portista :80
+- TODO: Kirjautuminen? Read-only ilman kirjautumista?
+- https://blog.anoff.io/2021-01-howto-grafana-on-raspi/
 
 # Mittaukset
 
