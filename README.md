@@ -1,15 +1,15 @@
 # Talonvalvontaprojekti
 
+Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennetaan tekniseen tilaan sopivasti toimilaitteiden ja verkkokaapin läheisyyteen. Raspilla ajetaan työkuormia Docker-konteissa jolloin eri osat pysyvät hyvin erillään toisistaan.
+
+ Grafanan UI julkaistaan reitittimen läpi internettiin DynDNS tai vastaavan avulla --> myös kotiverkosta pääsee kätevästi katsomaan käyriä.
+
 ![Overall picture](/diagrams/Talonvalvonta.png)
 
 
 # Rasberry PI 4 Model B
 
-- Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennetaan tekniseen tilaan sopivasti toimilaitteiden ja verkkokaapin läheisyyteen. 
-- Raspi kytketään IoT-wlaniin pois eikä anneta pääsyä kotiverkkoon
-  - Hallintayhteys vaatii liittymisen IoT-wlaniin
-  - Grafanan UI julkaistaan reitittimen läpi internettiin DynDNS tai vastaavan avulla --> myös kotiverkosta pääsee kätevästi katsomaan käyriä.
-- [Technical Documentation](https://www.raspberrypi.com/documentation/)
+[Technical Documentation](https://www.raspberrypi.com/documentation/)
 
 ## Speksit
 
@@ -113,4 +113,6 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 ## Swegon Casa R120 (???)
 
 ## Tuleva ilmalämpöpumppu (???)
-
+- Mitsibishin pumpuissa on MELCloud jolla saadaan tietoa ulos pumpusta. Sitä voi tutkia esim tällä https://github.com/vilppuvuorinen/pymelcloud
+- Keinoja löytyy myös tutkia asiaa suoraan pumpulta mutta vaatii temppuiluja https://chrdavis.github.io/hacking-a-mitsubishi-heat-pump-Part-1/
+- Mm. Gree:lle on tehty myös temppuja suoraan kaukosäätimen asetuksia reverse-engineeraamalla https://www.dudley.nu/projects/heatpump-control/
