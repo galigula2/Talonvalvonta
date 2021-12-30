@@ -34,6 +34,8 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 - Lataamisen jälkeen [enabloidaan headless imageen wifi-yhdistäminen js SSH-tuki](https://medium.com/@nikosmouroutis/how-to-setup-your-raspberry-pi-and-connect-to-it-through-ssh-and-your-local-wifi-ac53d3839be9)
   - Luodaan boot-partitiolle tyhjä `ssh` niminen tyhjä tiedosto joka enabloi SSH:n käynnistyksen yhteydessä
   - Luodaan boot-partitiolle `wpa_supplicant.conf` niminen tiedosto joka kertoo mihin WIFI-verkkoon otetaan automaattisesti yhteyttä (sisältö esim [täältä](https://medium.com/@nikosmouroutis/how-to-setup-your-raspberry-pi-and-connect-to-it-through-ssh-and-your-local-wifi-ac53d3839be9))
+    - Huom! Tässä voi määrittää useamman wifi-verkon ja niille priority-asetuken (korkeampi luku valitaan ensin).
+    - Kätevää jos on poissa pääverkon kuuluvilta ja pitää saada yhteys raspbiin. Puhelimen Wifi Hotspot-näytöstä voi tarkistaa osoitteen minkä Raspi saa jaetussa verkossa.
   - Windowsilla saattaa joutua laittamaan FAT32 boot-partitiolle drive letter jotta sinne pääsi käsiksi ja luomaan tarvittavat tiedostot
   - WIFI voitaisiin laittaa yhdistämään tietoturvasyistä erilliseen IoT-verkkoon, mutta nykyisen reitittimen rajoitusten takia näin ei tehty (lisäksi jatkossa käytetään kuitenkin langalista verkkoa jolloin tämän merkitys pienenee)
 - Asetetaan kiinteä IP reitittimen asetuksissa, esim `192.168.1.120`
