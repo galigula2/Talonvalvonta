@@ -55,11 +55,18 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
   - Asenna Docker Compose (Asentaa myös Python 3.x)
     - `sudo apt-get -y install libffi-dev libssl-dev python3-dev python3 python3-pip` 
     - `sudo pip3 install docker-compose` needs sudo to put it into path correctly
- 
+
+- Asennetaan Git ja ladataan tämä repository
+  - Asenna git `sudo apt-get install git`
+  - Luodaan ssh-avain `ssh-keygen` (oletusvalinnat ok, lisää salasana jos näet tarpeelliseksi)
+  - Lisätään ssh-avain GitHub käyttäjäsi avaimiin [täältä](https://github.com/settings/ssh/new)
+  - Kloonaa repository `git clone git@github.com:galigula2/Talonvalvonta.git`
+
 - Viimeistelytoimenpiteitä
   - Lisää `ll` tiedostolistauksia varten `sed -i 's/#*alias ll=.*$/alias ll="ls -ahl"/g' ~/.bashrc`
   - Varmista, että koko muistikortti on käytettävissä `sudo raspi-config --expand-rootfs`
-  - TODO: https://blog.anoff.io/2020-12-install-docker-raspi/#enable-automatic-upgrades ?
+  - TODO: https://blog.anoff.io/2020-12-instal
+  - TODO: docker-raspi/#enable-automatic-upgrades ?
   - TODO: https://blog.anoff.io/2020-12-install-docker-raspi/#set-default-locale ?
   - TODO: https://blog.anoff.io/2020-12-install-docker-raspi/#disable-wifibluetooth (if not needed?)
  
@@ -83,18 +90,46 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 
 ## Ohjelmistot
 ### InfluxDB
-- Aikasarjatietokanta mittatulosten tallentamiseen
-- https://blog.anoff.io/2020-12-run-influx-on-raspi-docker-compose/ 
+- TODO: INFLUXDB EI PYSY KÄYNNISSÄ TÄLLÄ HETKELLÄ: "run: parse config: Near line 0 (last key parsed ''): bare keys cannot contain ':'" 
+- Aikasarjatietokanta mittatulosten tallentamiseen + chronograf hallintakäyttöliittymä + telegraf järjestelmän metriikoiden hakemiseen
+  - HUOM! Tässä käytetään InfluxDB:n versiota 1.8 uudemman 2.x sarjan sijaan. 2.x sarjassa muuttuu moni asia ja tässä olevat ohjeet ja Chronograf eivät suoraan toimi.
+  - Chronograf-käyttöliittymässä ei ole kirjautumistukea joten se suojataan verkkotasolla antamalla pääsy sinne vain Raspin sisältä.Tämä kierretään myöhemmin ssh-putkituksella (ks. alla)
+  - Telegraf kerää tietoja Raspin CPU-kuorasta ja muista metriikoista ja tallentaa ne InfluxDB:hen
+- Perustuu https://blog.anoff.io/2020-12-run-influx-on-raspi-docker-compose/ mutta tarvittavat kansiot ja kooditiedostot luodaan repossa olevilla tiedostoilla
+- Käyttöönotto
+  - Muokkaa docker composen env-tiedostoa `Talonvalvonta/docker/compose-files/influxdb/.env`
+    - Vaihda INFLUXDB_PASSWORD-arvo johonkin hyvään salaiseen salasanaan
+    - Näitä muutoksia ei tallenneta takaisin gittiin!
+  - Muokkaa telegrafin asetuksia tiedostossa `Talonvalvonta/docker/influxdb/telegraf.conf`
+    - Vaihda telegraf-käyttäjän salasana kohtaan <telegrafUSERpassword>
+    - Tarkista, että agent.hostname-kentän arvo Raspin $hostname arvoa `echo $HOSTNAME` 
+    - Näitä muutoksia ei tallenneta takaisin gittiin!
+  - Muokkaa InfluxDB:n init-asetuksia tiedostossa `Talonvalvonta/docker/influxdb/init/create-telegraf.iql`
+    - Vaida telegraf-käyttäjän salasana kohdassa <telegrafUSERpassword> 
+    - Näitä muutoksia ei tallenneta takaisin gittiin!
+  - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
+    - Mene hakemistoon `Talonvalvonta/docker/compose-files/influxdb/`
+    - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
+    - Tarkista, että kaikki kolme palvelua käynnistyivät ajamalla `docker ps`
+- Käyttäminen
+  - Käytä komentorivityökalua Raspin sisältä
+    - `docker exec -it influxdb influx` ja autentikoidu samoilla tunnuksilla kuin .env-tiedostossa
+  - Käytä Chronograf graafista käyttöliittymää Raspin ulkopuolelta
+    - Aja toisella koneella `ssh pi@192.168.1.120 -L 8888:localhost:8888 -N`
+    - Avaa selaimella `localhost:8888`
+    - Testaa explore-välilehdellä CPU-kuormien hakemista `SELECT mean("usage_system") AS "mean_usage_system", mean("usage_user") AS "mean_usage_user", mean("usage_iowait") AS "mean_usage_iowait", mean("usage_idle") AS "mean_usage_idle" FROM "telegraf"."autogen"."cpu" WHERE time > :dashboardTime: AND time < :upperDashboardTime: AND "cpu"='cpu-total' GROUP BY time(:interval:) FILL(null)`
 - TODO: Varmuuskopiot
   - Mihin varmuuskopioidaan? Pilveen vai NAS:lle? Miten usein?
+  - https://docs.influxdata.com/influxdb/v2.1/backup-restore/backup/
 - TODO: Data retention policy
-  - Real time data vs history data
+  - Real time data vs history data, InfluxDB:ssä kerrotaan suoraan kauanko data säilytetään, tarvitaan ehkä downsamplattu taulu pitkäaikaissäilytykseen
   - https://docs.influxdata.com/influxdb/v2.1/process-data/common-tasks/downsample-data/
 
 ### Grafana
 - Visualisointityöalu aikasarjadatalle
 - Tarjotaan ulos portista :80
 - TODO: Kirjautuminen? Read-only ilman kirjautumista?
+- Reaaliaikadashboard jonne streamataan 5s välein tietoa? Muuten minuutin välein päivittyvä datalähde
 - https://blog.anoff.io/2021-01-howto-grafana-on-raspi/
 
 # Mittaukset
