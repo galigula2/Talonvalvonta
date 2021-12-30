@@ -45,15 +45,24 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
   - Vaihdetaan oletussalasana toiseksi `passwd`-komennolla
   - Ajetaan peruspäivitykset `sudo raspi-config`-sovelluksella
   
-- Asennetaan K3s alustaksi
-  - Rancherin ohjeet asentamiseen: https://rancher.com/docs/k3s/latest/en/quick-start/
-  - Käytännössä vaatii vähän ylimääräistä säätöä jotta toimii Raspilla
-    - Lisää `cgroup_memory=1 cgroup_enable=memory` mukaan `/boot/cmdline.txt`-tiedostoon
-    - Ajetaan `curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644`
-    - Jos klusterin käynnistäminen ei onnistu niin koita `sudo reboot` jolloin ainakin cgroup memory-muutokset astuvat voimaan ja ongelma korjaantuus
-  - Testaa klusterin toimivuus `kubectl get nodes -o wide`
-    - TODO: K3s server näyttäisi vievän 10% CPU ja 12% memoryä idlenä ollessaan. Katsotaan kannattaako tällä tiellä jatkaa?
-
+- Asennetaan Docker ja Docker Compose alustaksi
+  - https://blog.anoff.io/2020-12-install-docker-raspi/
+  - Lataa asennusskripti `curl -fsSL https://get.docker.com -o get-docker.sh`
+  - Ahja asennusskripti `sh get-docker.sh`
+  - Lisää käyttäjä 'pi' docker-ryhmään jotta kontteja saadaan ajettua `sudo usermod -aG docker $(whoami)`
+  - Katkaise yhteys ja kirjaudu uudestaan SSH:lla (tämä lataa käyttäjän uuden ryhmän)
+  - Kokeile että Docker toimii `docker run hello-world`
+  - Asenna Docker Compose (Asentaa myös Python 3.x)
+    - `sudo apt-get -y install libffi-dev libssl-dev python3-dev python3 python3-pip` 
+    - `sudo pip3 install docker-compose` needs sudo to put it into path correctly
+ 
+- Viimeistelytoimenpiteitä
+  - Lisää `ll` tiedostolistauksia varten `sed -i 's/#*alias ll=.*$/alias ll="ls -ahl"/g' ~/.bashrc`
+  - Varmista, että koko muistikortti on käytettävissä `sudo raspi-config --expand-rootfs`
+  - TODO: https://blog.anoff.io/2020-12-install-docker-raspi/#enable-automatic-upgrades ?
+  - TODO: https://blog.anoff.io/2020-12-install-docker-raspi/#set-default-locale ?
+  - TODO: https://blog.anoff.io/2020-12-install-docker-raspi/#disable-wifibluetooth (if not needed?)
+ 
 - TODO: Siirretään tekniseen tilaan
   - Täällä ei käytetä wifiä vaan mennään lankaverkolla kiinni (Wifin saa siis disabloida)
   - Todellinen tarve tekniselle tilalle on vasta kun aletaan ottamaan sen laitteisiin kiinni. Alkuvaiheessa voidaan kuitenkin testata Ruuvitagien kantamaa ja saapa sen muutenkin pois jaloista
@@ -70,6 +79,7 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
   - Nyt pitäisi saada yhteys raspiin myös ulokoverkosta
   - TODO: Mutta ei saada, joko operaattorin päässä blokataan tämä tai reitittimien kanssa on jumppaamista
   - TODO: Onko itseasiassa SSH:lle ulkoverkosta tarvetta? Isompi tarve on saada Grana näkyviin julkiverkosta
+
 
 ## Ohjelmistot
 ### InfluxDB
