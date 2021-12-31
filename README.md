@@ -128,10 +128,22 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 
 ### Grafana
 - Visualisointityöalu aikasarjadatalle
-- Tarjotaan ulos portista :80
-- TODO: Kirjautuminen? Read-only ilman kirjautumista?
-- Reaaliaikadashboard jonne streamataan 5s välein tietoa? Muuten minuutin välein päivittyvä datalähde
-- https://blog.anoff.io/2021-01-howto-grafana-on-raspi/
+- Perustuu https://blog.anoff.io/2021-01-howto-grafana-on-raspi/ mutta tarvittavat kansiot ja kooditiedostot luodaan repossa olevilla tiedostoilla
+- Käyttöönotto
+  - Muokkaa docker composen env-tiedostoa `Talonvalvonta/docker/compose-files/grafana/.env`
+    - Vaihda GF_SECURITY_ADMIN_PASSWORD-arvo johonkin hyvään salaiseen salasanaan
+    - Näitä muutoksia ei tallenneta takaisin gittiin! 
+- Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
+  - Mene hakemistoon `Talonvalvonta/docker/compose-files/grafana/`
+  - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
+  - Tarkista, että grafana-palvelu käynnistyi ajamalla `docker ps`
+- Käyttäminen
+  - Kun kontti on ajossa siihen voi ottaa suoraan yhteyttä selaimella `192.168.1.120:3000`
+  - Admin-käyttö vaatii aikaisemmin asetetun salasanan
+- TODO: Dashoboardit
+  - Reaaliaikadashboard jonne streamataan 5s välein tietoa esim. sähkönkulutus juuri tällä hetkellä? 
+  - Muuten minuutin välein päivittyvä dasboardi.
+  - Säilytysaikaluokat riippuu mittauksista (ks. alla)
 
 # Mittaukset
 
