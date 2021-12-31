@@ -103,7 +103,10 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
     - Vaihda telegraf-käyttäjän salasana kohtaan <telegrafUSERpassword>
     - Tarkista, että agent.hostname-kentän arvo Raspin $hostname arvoa `echo $HOSTNAME` 
     - Näitä muutoksia ei tallenneta takaisin gittiin!
-  - Muokkaa InfluxDB:n init-asetuksia tiedostossa `Talonvalvonta/docker/influxdb/init/create-telegraf.iql`
+  - Muokkaa InfluxDB:n init-asetuksia tiedostossa `Talonvalvonta/docker/influxdb/init/01_create-telegraf.iql`
+    - Vaida telegraf-käyttäjän salasana kohdassa <telegrafUSERpassword> 
+    - Näitä muutoksia ei tallenneta takaisin gittiin!
+  - Muokkaa InfluxDB:n init-asetuksia tiedostossa `Talonvalvonta/docker/influxdb/init/99_create-grafana.iql`
     - Vaida telegraf-käyttäjän salasana kohdassa <telegrafUSERpassword> 
     - Näitä muutoksia ei tallenneta takaisin gittiin!
   - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
@@ -132,6 +135,9 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 - Käyttöönotto
   - Muokkaa docker composen env-tiedostoa `Talonvalvonta/docker/compose-files/grafana/.env`
     - Vaihda GF_SECURITY_ADMIN_PASSWORD-arvo johonkin hyvään salaiseen salasanaan
+    - Näitä muutoksia ei tallenneta takaisin gittiin! 
+ - Muokkaa influxDB source configurea `Talonvalvonta/docker/grafana/provisioning/datasources/influxdb.yaml`
+    - Vaihda password-arvo samaksi jonka laitoit `Talonvalvonta/docker/influxdb/init/99_create-grafana.iql` aikaisemmin
     - Näitä muutoksia ei tallenneta takaisin gittiin! 
 - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
   - Mene hakemistoon `Talonvalvonta/docker/compose-files/grafana/`
