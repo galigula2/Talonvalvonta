@@ -90,7 +90,6 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 
 ## Ohjelmistot
 ### InfluxDB
-- TODO: INFLUXDB EI PYSY KÄYNNISSÄ TÄLLÄ HETKELLÄ: "run: parse config: Near line 0 (last key parsed ''): bare keys cannot contain ':'" 
 - Aikasarjatietokanta mittatulosten tallentamiseen + chronograf hallintakäyttöliittymä + telegraf järjestelmän metriikoiden hakemiseen
   - HUOM! Tässä käytetään InfluxDB:n versiota 1.8 uudemman 2.x sarjan sijaan. 2.x sarjassa muuttuu moni asia ja tässä olevat ohjeet ja Chronograf eivät suoraan toimi.
   - Chronograf-käyttöliittymässä ei ole kirjautumistukea joten se suojataan verkkotasolla antamalla pääsy sinne vain Raspin sisältä.Tämä kierretään myöhemmin ssh-putkituksella (ks. alla)
@@ -113,7 +112,9 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
     - Tarkista, että kaikki kolme palvelua käynnistyivät ajamalla `docker ps`
 - Käyttäminen
   - Käytä komentorivityökalua Raspin sisältä
-    - `docker exec -it influxdb influx` ja autentikoidu samoilla tunnuksilla kuin .env-tiedostossa
+    - `docker exec -it influxdb influx`
+    - Syötä `auth` ja käytä samoja tunnuksia kuin .env-tiedostossa
+    - Kokeile esim `show users` ja `show databases`
   - Käytä Chronograf graafista käyttöliittymää Raspin ulkopuolelta
     - Aja toisella koneella `ssh pi@192.168.1.120 -L 8888:localhost:8888 -N`
     - Avaa selaimella `localhost:8888`
@@ -121,7 +122,7 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 - TODO: Varmuuskopiot
   - Mihin varmuuskopioidaan? Pilveen vai NAS:lle? Miten usein?
   - https://docs.influxdata.com/influxdb/v2.1/backup-restore/backup/
-- TODO: Data retention policy
+- TODO: Data retention policy määrittely
   - Real time data vs history data, InfluxDB:ssä kerrotaan suoraan kauanko data säilytetään, tarvitaan ehkä downsamplattu taulu pitkäaikaissäilytykseen
   - https://docs.influxdata.com/influxdb/v2.1/process-data/common-tasks/downsample-data/
 
