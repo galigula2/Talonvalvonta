@@ -93,11 +93,10 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
   - Kopioi secrets-template `cp Talonvalvonta/docker/secrets.env.template Talonvalvonta/docker/secrets.env`
   - Keksi tiedostoon salasanat
   - Tätä tiedostoa ei ole tarkoitus tallentaa gittiin!
+  - Tarkista, että symlinkit osoittavat oikein `ls -l Talonvalvonta/docker/compose-files/influxdb/.env` pitäisi palauttaa `Talonvalvonta/docker/compose-files/influxdb/.env -> ../../secrets.env`
 
 ### InfluxDB
-- Aikasarjatietokanta mittatulosten tallentamiseen + chronograf hallintakäyttöliittymä + telegraf järjestelmän metriikoiden hakemiseen
-  - HUOM! Tässä käytetään InfluxDB:n versiota 1.8 uudemman 2.x sarjan sijaan. 2.x sarjassa muuttuu moni asia ja tässä olevat ohjeet ja Chronograf eivät suoraan toimi.
-  - Chronograf-käyttöliittymässä ei ole kirjautumistukea joten se suojataan verkkotasolla antamalla pääsy sinne vain Raspin sisältä.Tämä kierretään myöhemmin ssh-putkituksella (ks. alla)
+- Aikasarjatietokanta mittatulosten tallentamiseen + telegraf järjestelmän metriikoiden hakemiseen
   - Telegraf kerää tietoja Raspin CPU-kuorasta ja muista metriikoista ja tallentaa ne InfluxDB:hen
 - Perustuu https://blog.anoff.io/2020-12-run-influx-on-raspi-docker-compose/ mutta tarvittavat kansiot ja kooditiedostot luodaan repossa olevilla tiedostoilla
 - Käyttöönotto
