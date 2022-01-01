@@ -11,4 +11,4 @@ datasources:
     jsonData:
       httpMode: GET
     secureJsonData:
-      password: <grafanaUSERpassword>
+      password: $INFLUXDB_USERPWD_GRAFANA

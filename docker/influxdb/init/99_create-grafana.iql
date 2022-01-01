@@ -1,2 +1,0 @@
-CREATE USER grafana WITH PASSWORD '<grafanaUSERpassword>'
-GRANT READ ON telegraf to grafana
