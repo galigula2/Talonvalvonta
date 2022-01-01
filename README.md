@@ -89,6 +89,11 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 
 
 ## Ohjelmistot
+- Valmistele Secrets-environment tiedosto käyttöä varten
+  - Kopioi secrets-template `cp Talonvalvonta/docker/secrets.env.template Talonvalvonta/docker/secrets.env`
+  - Keksi tiedostoon salasanat
+  - Tätä tiedostoa ei ole tarkoitus tallentaa gittiin!
+
 ### InfluxDB
 - Aikasarjatietokanta mittatulosten tallentamiseen + chronograf hallintakäyttöliittymä + telegraf järjestelmän metriikoiden hakemiseen
   - HUOM! Tässä käytetään InfluxDB:n versiota 1.8 uudemman 2.x sarjan sijaan. 2.x sarjassa muuttuu moni asia ja tässä olevat ohjeet ja Chronograf eivät suoraan toimi.
@@ -96,32 +101,19 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
   - Telegraf kerää tietoja Raspin CPU-kuorasta ja muista metriikoista ja tallentaa ne InfluxDB:hen
 - Perustuu https://blog.anoff.io/2020-12-run-influx-on-raspi-docker-compose/ mutta tarvittavat kansiot ja kooditiedostot luodaan repossa olevilla tiedostoilla
 - Käyttöönotto
-  - Muokkaa docker composen env-tiedostoa `Talonvalvonta/docker/compose-files/influxdb/.env`
-    - Vaihda INFLUXDB_PASSWORD-arvo johonkin hyvään salaiseen salasanaan
-    - Näitä muutoksia ei tallenneta takaisin gittiin!
-  - Muokkaa telegrafin asetuksia tiedostossa `Talonvalvonta/docker/influxdb/telegraf.conf`
-    - Vaihda telegraf-käyttäjän salasana kohtaan <telegrafUSERpassword>
-    - Tarkista, että agent.hostname-kentän arvo Raspin $hostname arvoa `echo $HOSTNAME` 
-    - Näitä muutoksia ei tallenneta takaisin gittiin!
-  - Muokkaa InfluxDB:n init-asetuksia tiedostossa `Talonvalvonta/docker/influxdb/init/01_create-telegraf.iql`
-    - Vaida telegraf-käyttäjän salasana kohdassa <telegrafUSERpassword> 
-    - Näitä muutoksia ei tallenneta takaisin gittiin!
-  - Muokkaa InfluxDB:n init-asetuksia tiedostossa `Talonvalvonta/docker/influxdb/init/99_create-grafana.iql`
-    - Vaida telegraf-käyttäjän salasana kohdassa <telegrafUSERpassword> 
-    - Näitä muutoksia ei tallenneta takaisin gittiin!
+  - Tarkista, että `.sh`-tiedostoilla kansiossa `Talonvalvonta/docker/ìnfluxdb/init` on suoritusoikeudet (x)
   - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
     - Mene hakemistoon `Talonvalvonta/docker/compose-files/influxdb/`
     - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
-    - Tarkista, että kaikki kolme palvelua käynnistyivät ajamalla `docker ps`
+    - Tarkista, että `influxdb` ja `telegraf` palvelut käynnistyivät ajamalla `docker ps`
 - Käyttäminen
-  - Käytä komentorivityökalua Raspin sisältä
-    - `docker exec -it influxdb influx`
-    - Syötä `auth` ja käytä samoja tunnuksia kuin .env-tiedostossa
-    - Kokeile esim `show users` ja `show databases`
-  - Käytä Chronograf graafista käyttöliittymää Raspin ulkopuolelta
-    - Aja toisella koneella `ssh pi@192.168.1.120 -L 8888:localhost:8888 -N`
-    - Avaa selaimella `localhost:8888`
-    - Testaa explore-välilehdellä CPU-kuormien hakemista `SELECT mean("usage_system") AS "mean_usage_system", mean("usage_user") AS "mean_usage_user", mean("usage_iowait") AS "mean_usage_iowait", mean("usage_idle") AS "mean_usage_idle" FROM "telegraf"."autogen"."cpu" WHERE time > :dashboardTime: AND time < :upperDashboardTime: AND "cpu"='cpu-total' GROUP BY time(:interval:) FILL(null)`
+  - Käytä komentorivityökalua Raspin sisältä esim. 
+    - `docker exec -it influxdb influx org list`
+    - `docker exec -it influxdb influx bucket list`
+    - `docker exec -it influxdb influx user list`
+  - Käytä Graafista käyttöliittymää Raspin ulkopuolelta
+    - Avaa selaimella `localhost:8086`
+    - Kirjaudu sisällä InfluxDB-tunnuksilla
 - TODO: Varmuuskopiot
   - Mihin varmuuskopioidaan? Pilveen vai NAS:lle? Miten usein?
   - https://docs.influxdata.com/influxdb/v2.1/backup-restore/backup/
@@ -132,13 +124,6 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 ### Grafana
 - Visualisointityöalu aikasarjadatalle
 - Perustuu https://blog.anoff.io/2021-01-howto-grafana-on-raspi/ mutta tarvittavat kansiot ja kooditiedostot luodaan repossa olevilla tiedostoilla
-- Käyttöönotto
-  - Muokkaa docker composen env-tiedostoa `Talonvalvonta/docker/compose-files/grafana/.env`
-    - Vaihda GF_SECURITY_ADMIN_PASSWORD-arvo johonkin hyvään salaiseen salasanaan
-    - Näitä muutoksia ei tallenneta takaisin gittiin! 
- - Muokkaa influxDB source configurea `Talonvalvonta/docker/grafana/provisioning/datasources/influxdb.yaml`
-    - Vaihda password-arvo samaksi jonka laitoit `Talonvalvonta/docker/influxdb/init/99_create-grafana.iql` aikaisemmin
-    - Näitä muutoksia ei tallenneta takaisin gittiin! 
 - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
   - Mene hakemistoon `Talonvalvonta/docker/compose-files/grafana/`
   - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
