@@ -1,9 +1,15 @@
 version: "3.3"
 
+networks:
+  metrics:
+    external: true
+    name: influxdb_metrics
+
 services:
   grafana:
     image: grafana/grafana:8.3.3
     container_name: grafana
+    networks: [metrics]
     restart: always
     user: "1000" # needs to be `id -u` // alternatively chown the grafana/data dir to 472:472
     ports:
@@ -16,3 +22,4 @@ services:
       - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+      - INFLUX_TOKEN=${INFLUXDB_GRAFANA_TOKEN}

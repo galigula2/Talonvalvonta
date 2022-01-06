@@ -19,17 +19,6 @@ services:
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USERNAME} # sourced from .env
-      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_USERPWD_ADMIN} # sourced when starting the container
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_USERPWD_ADMIN} # sourced from .env
       - DOCKER_INFLUXDB_INIT_ORG=Talonvalvonta
       - DOCKER_INFLUXDB_INIT_BUCKET=Talonvalvonta-Bucket
-      - INFLUXDB_USERPWD_TELEGRAF=${INFLUXDB_USERPWD_TELEGRAF}
-      - INFLUXDB_USERPWD_GRAFANA=${INFLUXDB_USERPWD_GRAFANA}
-  telegraf:
-    image: telegraf:1.21
-    restart: always
-    container_name: telegraf
-    networks: [metrics]
-    volumes:
-      - $HOME/Talonvalvonta/docker/influxdb/telegraf.conf:/etc/telegraf/telegraf.conf:ro
-    environment:
-      - INFLUXDB_USERPWD_TELEGRAF=${INFLUXDB_USERPWD_TELEGRAF}

@@ -1,14 +1,15 @@
 apiVersion: 1
 
 datasources:
-  - name: InfluxDB_v1
+  - name: InfluxDB_v2_Flux
     type: influxdb
-    isDefault: true
     access: proxy
-    database: telegraf
-    user: grafana
-    url: http://localhost:8086
-    jsonData:
-      httpMode: GET
+    isDefault: true
+    url: http://influxdb:8086
     secureJsonData:
-      password: $INFLUXDB_USERPWD_GRAFANA
+      token: $INFLUX_TOKEN
+    jsonData:
+      version: Flux
+      organization: Talonvalvonta
+      defaultBucket: telegraf
+      tlsSkipVerify: true

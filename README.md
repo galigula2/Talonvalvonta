@@ -7,7 +7,7 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
 ![Overall picture](/diagrams/Talonvalvonta.png)
 
 
-# Rasberry PI 4 Model B
+# Rasp berry PI 4 Model B
 
 [Technical Documentation](https://www.raspberrypi.com/documentation/)
 
@@ -93,18 +93,17 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
   - Kopioi secrets-template `cp Talonvalvonta/docker/secrets.env.template Talonvalvonta/docker/secrets.env`
   - Keksi tiedostoon salasanat
   - Tätä tiedostoa ei ole tarkoitus tallentaa gittiin!
-  - Tarkista, että symlinkit osoittavat oikein `ls -l Talonvalvonta/docker/compose-files/influxdb/.env` pitäisi palauttaa `Talonvalvonta/docker/compose-files/influxdb/.env -> ../../secrets.env`
 
 ### InfluxDB
-- Aikasarjatietokanta mittatulosten tallentamiseen + telegraf järjestelmän metriikoiden hakemiseen
-  - Telegraf kerää tietoja Raspin CPU-kuorasta ja muista metriikoista ja tallentaa ne InfluxDB:hen
+- Aikasarjatietokanta mittatulosten tallentamiseen + telegraf järjestelmän metriikoiden hakemiseen  
 - Perustuu https://blog.anoff.io/2020-12-run-influx-on-raspi-docker-compose/ mutta tarvittavat kansiot ja kooditiedostot luodaan repossa olevilla tiedostoilla
 - Käyttöönotto
   - Tarkista, että `.sh`-tiedostoilla kansiossa `Talonvalvonta/docker/ìnfluxdb/init` on suoritusoikeudet (x)
+  - Kopioi secrets-template kansiossa `Talonvalvonta/docker/compose-files/influxdb` tiedosto `secrets.env.template` tiedostoksi `.env` ja täytä salasana käyttäjälle
   - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
     - Mene hakemistoon `Talonvalvonta/docker/compose-files/influxdb/`
     - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
-    - Tarkista, että `influxdb` ja `telegraf` palvelut käynnistyivät ajamalla `docker ps`
+    - Tarkista, että `influxdb` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
 - Käyttäminen
   - Käytä komentorivityökalua Raspin sisältä esim. 
     - `docker exec -it influxdb influx org list`
@@ -120,17 +119,34 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
   - Real time data vs history data, InfluxDB:ssä kerrotaan suoraan kauanko data säilytetään, tarvitaan ehkä downsamplattu taulu pitkäaikaissäilytykseen
   - https://docs.influxdata.com/influxdb/v2.1/process-data/common-tasks/downsample-data/
 
+### Telegraf
+- Telegraf kerää tietoja Raspin CPU-kuorasta ja muista metriikoista ja tallentaa ne InfluxDB:hen
+- Esimerkeissä deployattu yleensä influxdb:n kanssa samassa, mutta Influxdb2 tokeneita ei saa ohjelmallisesti luotua käynnistyksen yhteydessä kätevästi --> tehdään erilllään. Lisähyötynä nämä saa helposti erillisiin koneisiin talteen.
+- Käyttönotto
+  - Listaa tokenit komennolla `docker exec -it influxdb influx auth list` ja kopioi Telegraf-tokenin arvo (3. sarake) talteen
+  - Kopioi secrets-template kansiossa `Talonvalvonta/docker/compose-files/telegraf` tiedosto `secrets.env.template` tiedostoksi `.env` ja täytä token äsken kopioidulla arvolla
+  - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
+    - Mene hakemistoon `Talonvalvonta/docker/compose-files/telegraf/`
+    - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
+    - Tarkista, että `telegraf` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
+    - Tarkista Influxdb-UI:sta, että dataa tulee sisälle
+
 ### Grafana
 - Visualisointityöalu aikasarjadatalle
 - Perustuu https://blog.anoff.io/2021-01-howto-grafana-on-raspi/ mutta tarvittavat kansiot ja kooditiedostot luodaan repossa olevilla tiedostoilla
-- Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
-  - Mene hakemistoon `Talonvalvonta/docker/compose-files/grafana/`
-  - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
-  - Tarkista, että grafana-palvelu käynnistyi ajamalla `docker ps`
+- Listaa tokenit komennolla `docker exec -it influxdb influx auth list` ja kopioi Grafana -tokenin arvo (3. sarake) talteen
+  - Kopioi secrets-template kansiossa `Talonvalvonta/docker/compose-files/grafana` tiedosto `secrets.env.template` tiedostoksi `.env` ja täytä token äsken kopioidulla arvolla
+  - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
+    - Mene hakemistoon `Talonvalvonta/docker/compose-files/grafana/`
+    - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
+    - Tarkista, että `grafana` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
 - Käyttäminen
   - Kun kontti on ajossa siihen voi ottaa suoraan yhteyttä selaimella `192.168.1.120:3000`
   - Admin-käyttö vaatii aikaisemmin asetetun salasanan
-- TODO: Dashoboardit
+- Dashoboardit
+  - TODO: Telegraf metrics dashboard
+  - TODO: Eri mittausten dashboardit?
+  - TODO: Nämä halutaan provisioitumaan automaattisesti!
   - Reaaliaikadashboard jonne streamataan 5s välein tietoa esim. sähkönkulutus juuri tällä hetkellä? 
   - Muuten minuutin välein päivittyvä dasboardi.
   - Säilytysaikaluokat riippuu mittauksista (ks. alla)
@@ -141,6 +157,8 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 - https://medium.com/@ville.alatalo/oma-s%C3%A4%C3%A4asema-ruuvitagilla-ja-grafanalla-25c823f20a20
 - https://github.com/Scrin/RuuviCollector (Java 8)
   - Vaiko sittenkin Pythonpohjainen https://github.com/ttu/ruuvitag-sensor
+  --> Joku mihin on valmis docker-container (esim. https://github.com/taskinen/ruuvicollector-docker)
+  --> InfluxDB2:hta varten pitää luoda username:token kombo V1 compatibility APIa käyttäen (https://docs.influxdata.com/influxdb/v2.1/reference/cli/influx/v1/auth/create/)
 - Jokaisen huonetermostaatin yhteyteen oma RuuviTag + muutama muu huone missä ei ole termostaattia (esim. kodinhoito)
 - TODO: Mitä sitten jos RuuviTagit ei kuulukaan koko talosta?
   - External-antenni? / Erillinen bluetooth usb-dongle paremmall antennilla?

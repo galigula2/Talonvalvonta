@@ -1,0 +1,17 @@
+version: "3"
+
+networks:
+  metrics:
+    external: true
+    name: influxdb_metrics
+
+services:
+  telegraf:
+    image: telegraf:1.21
+    restart: always
+    container_name: telegraf
+    networks: [metrics]
+    volumes:
+      - $HOME/Talonvalvonta/docker/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    environment:
+      - INFLUX_TOKEN=${INFLUXDB_TELEGRAF_TOKEN}
