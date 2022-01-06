@@ -1,0 +1,3 @@
+[submodule "src/RuuviCollector"]
+	path = src/RuuviCollector
+	url = https://github.com/Scrin/RuuviCollector.git
