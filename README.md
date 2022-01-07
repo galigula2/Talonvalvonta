@@ -2,7 +2,7 @@
 
 Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennetaan tekniseen tilaan sopivasti toimilaitteiden ja verkkokaapin läheisyyteen. Raspilla ajetaan työkuormia Docker-konteissa jolloin eri osat pysyvät hyvin erillään toisistaan.
 
- Grafanan UI julkaistaan reitittimen läpi internettiin DynDNS tai vastaavan avulla --> myös kotiverkosta pääsee kätevästi katsomaan käyriä.
+ Grafanan UI julkaistaan reitittimen läpi internettiin DynDNS tai vastaavan avulla --> myös ulkoverkosta pääsee kätevästi katsomaan käyriä.
 
 ![Overall picture](/diagrams/Talonvalvonta.png)
 
