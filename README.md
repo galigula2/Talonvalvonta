@@ -164,39 +164,29 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 - Käyttöönotto
   - Asete salasana automaattisesti luodulle ruuvi-writer-käyttäjälle komennolla `docker exec -it influxdb influx v1 auth set-password --username ruuvi-writer --password <RuuviWriterPasswordToSet>`
   - Valmistele Docker-paketti paikallisesti
-    - Kopioi kansiossa `Talonvalvonta/src/RuuviCollector` löytyvät `ruuvi-collector.properties.example` ja `ruuvi-names.properties.example` tiedostot samaan kansioon ilman `.example`-päätteitä
+    - Mene kansioon `Talonvalvonta/src/RuuviCollector`
+    - Luo Docker-paketti komennolla `docker build -t ruuvi-collector .`
+    - Tähän ei pitäisi juuri joutua koskemaan ellei RuuviCollectorista tule uutta versiota
+  - Sääsä asetukset
+    - Kopioi kansiossa `Talonvalvonta/docker/RuuviCollector` löytyvät `ruuvi-collector.properties.template` ja `ruuvi-names.properties.template` tiedostot samaan kansioon ilman `.template`-päätteitä
     - Muokkaa `Talonvalvonta/src/RuuviCollector/ruuvi-collector.properties` tiedostoa
-      - `influxUrl=http://influxdb:8086` (huomaa muutos localhost -> influxdb!)
-      - `influxDatabase=ruuvi`
-      - `influxMeasurement=ruuvi_measurements`
-      - `influxUser=ruuvi-writer`
       - `influxPassword=<RuuviWriterPasswordToSet>` (Salasana sama kuin minkä asetit yllä)
-      - `measurementUpdateLimit=9900`
       - Jos haluat rajoittaa lukemisen vain tiettyihin RuuviTageihin
         - `filter.mode=whitelist`
         - `filter.macs=<MAC1>,<MAC2>` (Ne RuuviTagitjotka haluat kerätä)
-      - `storage.values=extended` (Jotta [Extended Values](https://github.com/Scrin/RuuviCollector/blob/master/MEASUREMENTS.md) laskettaisiin)
     - Muokkaa `Talonvalvonta/src/RuuviCollector/ruuvi-names.properties` tiedostoa
       - Listaa tänne kaikki ne ruuvitagit joiden dataa olet lukemassa
       - Formaatti on `MAC-osoite`=`Nimi`
-    - Mene kansioon `Talonvalvonta/src/RuuviCollector`
-    - Luo Docker-paketti komennolla `docker build -t ruuvi-collector .` (Huom. Tässä voi kestää muutama minuutti ensimmäisellä kerralla!)
-    - Voit testata kontin suoritusta ajamalla se komennolla `docker run --rm --privileged --net=host ruuvi-collector:latest`
-       - TODO: Täällä on ongelma Database Retention Policyjen kanssa
   - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
-    - TODO: privileged ja net=host pitää saada mukaan docker-composeen!
     - Mene hakemistoon `Talonvalvonta/docker/compose-files/RuuviCollector/`
     - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
     - Tarkista, että `ruuvi-collector` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
-- Päivittäminen 
-  - Esim jos uusia RuuviTageja tulee
-  - TODO: RE-build docker image, restart docker-compose?
-  
 - TODO: Mitä sitten jos RuuviTagit ei kuulukaan koko talosta?
   - External-antenni? / Erillinen bluetooth usb-dongle paremmall antennilla?
   - Rasberry PI Zero jonnekin tukiasemaksi? Olisiko tällä jotain muutakin käyttöä?
   - Ilmeisesti tukee myös Mesh-noodia, mietitään
 - TODO: Tutkitaan mitä vaihtoehtoja RuuviTageilla on external sensoreille ja oman softan kirjoittamiselle
+  - Potentiaalia esimerkiksi katsomaan onko lattialämmityksen punainen ledi päällä vai ei
 
 ## Sähkönkulutus LED-indikaattorista
 - Perusajatus täältä: https://hyotynen.iki.fi/kotiautomaatio/sahkonkulutuksen-seurantaa/

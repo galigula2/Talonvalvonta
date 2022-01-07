@@ -1,3 +1,7 @@
 influxdb/data
 grafana/data
 **/.env
+
+# Don't commit files with actual instance data / passwords
+RuuviCollector/ruuvi-collector.properties
+RuuviCollector/ruuvi-names.properties

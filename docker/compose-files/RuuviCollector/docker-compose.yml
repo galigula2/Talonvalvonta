@@ -1,14 +1,13 @@
-version: "3"
-
-networks:
-  metrics:
-    external: true
-    name: influxdb_metrics
+version: "3.9"
 
 services:
   ruuvi-collector:
+    privileged: true
+    network_mode: host
     image: ruuvi-collector:latest
     restart: always
     container_name: ruuvi-collector
-    networks: [metrics]
+    volumes:
+      - $HOME/Talonvalvonta/docker/RuuviCollector/ruuvi-collector.properties:/app/ruuvi-collector.properties:ro
+      - $HOME/Talonvalvonta/docker/RuuviCollector/ruuvi-names.properties:/app/ruuvi-names.properties:ro
 

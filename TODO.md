@@ -6,15 +6,16 @@
 - [ ] YLEIS: Siirto tekniseen tilaan  
 - [ ] YLEIS: Dokumentaation kuvion päivittäminen  
 - [ ] YLEIS: docker-kansion alle README joka selittää mm. data-kansion tarkoituksen  
- - [ ] RUUVI: Kantamaongelman ratkaisu  
+- [ ] RUUVI: Kantamaongelman ratkaisu  
 - [ ] SÄHKÖ: Valoanturin testaus kytkentälaudalla
 - [ ] SÄHKÖ: Valoanturin kiinnityksen suunnittelu  
 - [ ] SÄHKÖ: Sähkömittauksen ohjelmiston suunnittelu  
 - [ ] SÄHKÖ: Ratkaisun kontitus ja käyttöönotto  
 
 ### In Progress
-- [ ] RUUVI: Keräysohjelmiston valmistelu (InfluxDB kirjoitus ei tällä hetkellä toimi, DBRP-valitusta)
+
 - [ ] RUUVI: Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
+- [ ] RUUVI: Grafana-dashboardi
 
 ### Done ✓
 
@@ -22,4 +23,5 @@
 - [X] YLEIS: Telegraf erilleen InfluxDBsta, yhdistys tokenilla (miten automaattinen tästä halutaan?)  
 - [X] YLEIS: Secretit applikaatiokohtaisiksi ja turhat userit pois
 - [X] YLEIS: Grafana pystyyn ja yhteys tokenilla (datasourcet ojennukseen, mitä provisioidaan automaattisesti?)  
+- [X] RUUVI: Keräysohjelmiston valmistelu
 
