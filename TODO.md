@@ -3,10 +3,11 @@
 ### Todo
 - [ ] YLEIS: Telegraf-agentin konfiguraatio
 - [ ] YLEIS: Grafanaan Telegraf-dashboard autoprovisioitumaan
-- [ ] YLEIS: Siirto tekniseen tilaan  
+- [ ] YLEIS: Siirto tekniseen tilaan (ml. siirto LAN-verkkoon)  
 - [ ] YLEIS: Dokumentaation kuvion päivittäminen  
 - [ ] YLEIS: docker-kansion alle README joka selittää mm. data-kansion tarkoituksen  
 - [ ] RUUVI: Kantamaongelman ratkaisu  
+- [ ] RUUVI: Seinätelineiden tulostus (5kpl) + Tagien asennus (6kpl)
 - [ ] SÄHKÖ: Valoanturin testaus kytkentälaudalla
 - [ ] SÄHKÖ: Valoanturin kiinnityksen suunnittelu  
 - [ ] SÄHKÖ: Sähkömittauksen ohjelmiston suunnittelu  
