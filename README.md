@@ -61,6 +61,7 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
   - Luodaan ssh-avain `ssh-keygen` (oletusvalinnat ok, lisää salasana jos näet tarpeelliseksi)
   - Lisätään ssh-avain GitHub käyttäjäsi avaimiin [täältä](https://github.com/settings/ssh/new)
   - Kloonaa repository `git clone git@github.com:galigula2/Talonvalvonta.git`
+  - Lataa submodulet komennolla `git submodule update --init` 
 
 - Viimeistelytoimenpiteitä
   - Lisää `ll` tiedostolistauksia varten `sed -i 's/#*alias ll=.*$/alias ll="ls -ahl"/g' ~/.bashrc`
@@ -154,12 +155,43 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 # Mittaukset
 
 ## RuuviTag (Huonelämpötilat, -kosteudet- ilmanpaineet)
-- https://medium.com/@ville.alatalo/oma-s%C3%A4%C3%A4asema-ruuvitagilla-ja-grafanalla-25c823f20a20
-- https://github.com/Scrin/RuuviCollector (Java 8)
-  - Vaiko sittenkin Pythonpohjainen https://github.com/ttu/ruuvitag-sensor
-  --> Joku mihin on valmis docker-container (esim. https://github.com/taskinen/ruuvicollector-docker)
-  --> InfluxDB2:hta varten pitää luoda username:token kombo V1 compatibility APIa käyttäen (https://docs.influxdata.com/influxdb/v2.1/reference/cli/influx/v1/auth/create/)
-- Jokaisen huonetermostaatin yhteyteen oma RuuviTag + muutama muu huone missä ei ole termostaattia (esim. kodinhoito)
+- Insipiraatio: https://medium.com/@ville.alatalo/oma-s%C3%A4%C3%A4asema-ruuvitagilla-ja-grafanalla-25c823f20a20
+  - Erotuksena tähän, uudet RuuviTagit lähettävät automaattisesti RAWv2-formaattia -> koteloita ei tarvitse avata
+  - Jokaisen huonetermostaatin yhteyteen oma RuuviTag + muutama muu huone missä ei ole termostaattia (esim. kodinhoito)
+- Käytetään RuuviCollector-apuohjelmaa (https://github.com/Scrin/RuuviCollector)
+  - Ajetaan Dockerin sisällä managementin helpottamiseksi
+  - Kirjoitetaan InfluxDB:hen V1 Compatibility API](https://docs.influxdata.com/influxdb/v2.1/reference/api/influxdb-1x):a hyödyntäen
+- Käyttöönotto
+  - Asete salasana automaattisesti luodulle ruuvi-writer-käyttäjälle komennolla `docker exec -it influxdb influx v1 auth set-password --username ruuvi-writer --password <RuuviWriterPasswordToSet>`
+  - Valmistele Docker-paketti paikallisesti
+    - Kopioi kansiossa `Talonvalvonta/src/RuuviCollector` löytyvät `ruuvi-collector.properties.example` ja `ruuvi-names.properties.example` tiedostot samaan kansioon ilman `.example`-päätteitä
+    - Muokkaa `Talonvalvonta/src/RuuviCollector/ruuvi-collector.properties` tiedostoa
+      - `influxUrl=http://influxdb:8086` (huomaa muutos localhost -> influxdb!)
+      - `influxDatabase=ruuvi`
+      - `influxMeasurement=ruuvi_measurements`
+      - `influxUser=ruuvi-writer`
+      - `influxPassword=<RuuviWriterPasswordToSet>` (Salasana sama kuin minkä asetit yllä)
+      - `measurementUpdateLimit=9900`
+      - Jos haluat rajoittaa lukemisen vain tiettyihin RuuviTageihin
+        - `filter.mode=whitelist`
+        - `filter.macs=<MAC1>,<MAC2>` (Ne RuuviTagitjotka haluat kerätä)
+      - `storage.values=extended` (Jotta [Extended Values](https://github.com/Scrin/RuuviCollector/blob/master/MEASUREMENTS.md) laskettaisiin)
+    - Muokkaa `Talonvalvonta/src/RuuviCollector/ruuvi-names.properties` tiedostoa
+      - Listaa tänne kaikki ne ruuvitagit joiden dataa olet lukemassa
+      - Formaatti on `MAC-osoite`=`Nimi`
+    - Mene kansioon `Talonvalvonta/src/RuuviCollector`
+    - Luo Docker-paketti komennolla `docker build -t ruuvi-collector .` (Huom. Tässä voi kestää muutama minuutti ensimmäisellä kerralla!)
+    - Voit testata kontin suoritusta ajamalla se komennolla `docker run --rm --privileged --net=host ruuvi-collector:latest`
+       - TODO: Täällä on ongelma Database Retention Policyjen kanssa
+  - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
+    - TODO: privileged ja net=host pitää saada mukaan docker-composeen!
+    - Mene hakemistoon `Talonvalvonta/docker/compose-files/RuuviCollector/`
+    - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
+    - Tarkista, että `ruuvi-collector` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
+- Päivittäminen 
+  - Esim jos uusia RuuviTageja tulee
+  - TODO: RE-build docker image, restart docker-compose?
+  
 - TODO: Mitä sitten jos RuuviTagit ei kuulukaan koko talosta?
   - External-antenni? / Erillinen bluetooth usb-dongle paremmall antennilla?
   - Rasberry PI Zero jonnekin tukiasemaksi? Olisiko tällä jotain muutakin käyttöä?

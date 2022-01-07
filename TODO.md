@@ -6,16 +6,15 @@
 - [ ] YLEIS: Siirto tekniseen tilaan  
 - [ ] YLEIS: Dokumentaation kuvion päivittäminen  
 - [ ] YLEIS: docker-kansion alle README joka selittää mm. data-kansion tarkoituksen  
-- [ ] RUUVI: Keräysohjelmiston valmistelu  
-- [ ] RUUVI: Kantamaongelman ratkaisu  
+ - [ ] RUUVI: Kantamaongelman ratkaisu  
 - [ ] SÄHKÖ: Valoanturin testaus kytkentälaudalla
 - [ ] SÄHKÖ: Valoanturin kiinnityksen suunnittelu  
 - [ ] SÄHKÖ: Sähkömittauksen ohjelmiston suunnittelu  
 - [ ] SÄHKÖ: Ratkaisun kontitus ja käyttöönotto  
 
 ### In Progress
-
- 
+- [ ] RUUVI: Keräysohjelmiston valmistelu (InfluxDB kirjoitus ei tällä hetkellä toimi, DBRP-valitusta)
+- [ ] RUUVI: Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
 
 ### Done ✓
 

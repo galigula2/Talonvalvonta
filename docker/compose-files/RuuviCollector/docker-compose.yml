@@ -1,0 +1,14 @@
+version: "3"
+
+networks:
+  metrics:
+    external: true
+    name: influxdb_metrics
+
+services:
+  ruuvi-collector:
+    image: ruuvi-collector:latest
+    restart: always
+    container_name: ruuvi-collector
+    networks: [metrics]
+
