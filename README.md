@@ -2,7 +2,7 @@
 
 Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennetaan tekniseen tilaan sopivasti toimilaitteiden ja verkkokaapin läheisyyteen. Raspilla ajetaan työkuormia Docker-konteissa jolloin eri osat pysyvät hyvin erillään toisistaan.
 
- Grafanan UI julkaistaan reitittimen läpi internettiin DynDNS tai vastaavan avulla --> myös ulkoverkosta pääsee kätevästi katsomaan käyriä.
+ Grafanan UI julkaistaan reitittimen läpi internettiin DynDNS tai vastaavan avulla --> myös kotiverkosta pääsee kätevästi katsomaan käyriä. Järjestelmä seuraa talon eri osia ja sieltä on mahdollista lähettää myös hälytyksiä tiettyjen raja-arvojen ylittyessä.
 
 ![Overall picture](/diagrams/Talonvalvonta.png)
 
@@ -90,10 +90,7 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
 
 
 ## Ohjelmistot
-- Valmistele Secrets-environment tiedosto käyttöä varten
-  - Kopioi secrets-template `cp Talonvalvonta/docker/secrets.env.template Talonvalvonta/docker/secrets.env`
-  - Keksi tiedostoon salasanat
-  - Tätä tiedostoa ei ole tarkoitus tallentaa gittiin!
+Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pääkoneella pyörii näistä kaikki ja mahdollisilla sivukoneilla ainakin Telegraf. Näin saadaan hyvä pohja erilaisten mittaussovellusten ajamiselle. 
 
 ### InfluxDB
 - Aikasarjatietokanta mittatulosten tallentamiseen + telegraf järjestelmän metriikoiden hakemiseen  
@@ -145,7 +142,7 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
   - Kun kontti on ajossa siihen voi ottaa suoraan yhteyttä selaimella `192.168.1.120:3000`
   - Admin-käyttö vaatii aikaisemmin asetetun salasanan
 - Dashoboardit
-  - TODO: Telegraf metrics dashboard
+  - TODO: Telegraf metrics dashboard oletuksena
   - TODO: Eri mittausten dashboardit?
   - TODO: Nämä halutaan provisioitumaan automaattisesti!
   - Reaaliaikadashboard jonne streamataan 5s välein tietoa esim. sähkönkulutus juuri tällä hetkellä? 
@@ -160,7 +157,7 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
   - Jokaisen huonetermostaatin yhteyteen oma RuuviTag + muutama muu huone missä ei ole termostaattia (esim. kodinhoito)
 - Käytetään RuuviCollector-apuohjelmaa (https://github.com/Scrin/RuuviCollector)
   - Ajetaan Dockerin sisällä managementin helpottamiseksi
-  - Kirjoitetaan InfluxDB:hen V1 Compatibility API](https://docs.influxdata.com/influxdb/v2.1/reference/api/influxdb-1x):a hyödyntäen
+  - Kirjoitetaan InfluxDB:hen [V1 Compatibility API](https://docs.influxdata.com/influxdb/v2.1/reference/api/influxdb-1x):a hyödyntäen
 - Käyttöönotto
   - Asete salasana automaattisesti luodulle ruuvi-writer-käyttäjälle komennolla `docker exec -it influxdb influx v1 auth set-password --username ruuvi-writer --password <RuuviWriterPasswordToSet>`
   - Valmistele Docker-paketti paikallisesti
