@@ -6,6 +6,33 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
 
 ![Overall picture](/diagrams/Talonvalvonta.png)
 
+## Next steps (Korkean tason TODO't)
+- YLEISET
+  - Telegraf-agentin konfiguraatio ja Grafanaan Telegraf-dashboard autoprovisioitumaan
+  - Siirto tekniseen tilaan (ml. siirto LAN-verkkoon)  
+  - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
+  - Alert-channelin konffaamminen
+  - PortForwardin tekeminen reitittimen läpi (vai muu systeemi?)
+  - Tietokannan varmuuskopiointi
+- RUUVI
+  - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
+  - Grafana-dashboardi
+  - Kantamaongelman ratkaisu  
+  - Seinätelineiden tulostus (5kpl) + Tagien asennus (6kpl)
+  - Alerttien konffaaminen
+- SÄHKÖMITTAUS
+  - Valoanturin testaus kytkentälaudalla
+  - Valoanturin kiinnityksen suunnittelu  
+  - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
+  - Sähkömittauksen ohjelmiston suunnittelu  
+  - Ratkaisun kontitus ja käyttöönotto  
+  - Alerttien konffaaminen
+- LÄMMÖNVAIHDIN
+  - Osahankinnat ja kaapelin valmistus
+  - Kaapelin kytkeminen Oumaniin
+  - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
+  - TaloLoggerin valmistelu ja käyttöönotto
+  - Alerttien konffaaminen (mitä tulee suoraan Oumanilta?)
 
 # Rasp berry PI 4 Model B
 
@@ -80,13 +107,11 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
     - Reitittimeltä kaapeli takaisin talokaapeloinnin kautta tekniseen
     - Teknisessä Raspi suoraan kiinni (tai kytkimen kautta jatkossa)
 
-- TODO: Hallintamekanismi
-  - Miten kubernetesta ja muita applikaatioita hallinnoidaan? 
-
 - TODO: Luodaan reitittimen asetuksissa Port Forward-tunneli julkiverkosta SSH:ta varten kiinteän IP:n porttiin esim. `*:1234` -> `192.168.1.120:22`
   - Nyt pitäisi saada yhteys raspiin myös ulokoverkosta
   - TODO: Mutta ei saada, joko operaattorin päässä blokataan tämä tai reitittimien kanssa on jumppaamista
   - TODO: Onko itseasiassa SSH:lle ulkoverkosta tarvetta? Isompi tarve on saada Grana näkyviin julkiverkosta
+  - TODO: VAI ONKO TÄLLE JOTAIN TURVALLISEMPAA VAIHTOEHTOA?
 
 
 ## Ohjelmistot
@@ -145,7 +170,7 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
   - TODO: Telegraf metrics dashboard oletuksena
   - TODO: Eri mittausten dashboardit?
   - TODO: Nämä halutaan provisioitumaan automaattisesti!
-  - Reaaliaikadashboard jonne streamataan 5s välein tietoa esim. sähkönkulutus juuri tällä hetkellä? 
+  - Reaaliaikadashboard jonne streamataan 5s välein tietoa esim. sähkönkulutus juuri tällä hetkellä? (Vai riittääkö downsamplauksella kikkailu? kiinnostaako tiukka tahti graafina?)
   - Muuten minuutin välein päivittyvä dasboardi.
   - Säilytysaikaluokat riippuu mittauksista (ks. alla)
 
