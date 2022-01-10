@@ -8,12 +8,12 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
 
 ## Next steps (Korkean tason TODO't)
 - YLEISET
-  - Telegraf-agentin konfiguraatio ja Grafanaan Telegraf-dashboard autoprovisioitumaan
-  - Siirto tekniseen tilaan (ml. siirto LAN-verkkoon)  
+  - Telegraf-agentin konfiguraatio ja Grafanaan Telegraf-dashboard autoprovisioitumaan 
   - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
   - Alert-channelin konffaamminen
   - PortForwardin tekeminen reitittimen läpi (vai muu systeemi?)
   - Tietokannan varmuuskopiointi
+  - Network/Docker watchdog käynnistämään uudestaan tarvittaessa ([ohjeet](https://www.meazurem.com/blog/raspberry-pi-with-network-watchdog/))
 - RUUVI
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Grafana-dashboardi
@@ -71,6 +71,7 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
     - NOTE: As discussed [here](https://www.reddit.com/r/raspberry_pi/comments/hckfiv/can_you_explain_this_mystery_sshing_to_my_pi_4/) power management on the connecting side can cause SSH to hang after giving SSH password. On an ASUS Gaming laptop this meant that SSH was not working if the power cable was not plugged in (mostl likely this is only when in WIFI)
   - Vaihdetaan oletussalasana toiseksi `passwd`-komennolla
   - Ajetaan peruspäivitykset `sudo raspi-config`-sovelluksella
+- Kun asetukset valmiina voidaan siirtää Raspi tekniseen tilaan 
   
 - Asennetaan Docker ja Docker Compose alustaksi
   - https://blog.anoff.io/2020-12-install-docker-raspi/
@@ -98,15 +99,6 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
   - TODO: https://blog.anoff.io/2020-12-install-docker-raspi/#set-default-locale ?
   - TODO: https://blog.anoff.io/2020-12-install-docker-raspi/#disable-wifibluetooth (if not needed?)
  
-- TODO: Siirretään tekniseen tilaan
-  - Täällä ei käytetä wifiä vaan mennään lankaverkolla kiinni (Wifin saa siis disabloida)
-  - Todellinen tarve tekniselle tilalle on vasta kun aletaan ottamaan sen laitteisiin kiinni. Alkuvaiheessa voidaan kuitenkin testata Ruuvitagien kantamaa ja saapa sen muutenkin pois jaloista
-  - Voiko IP vaihtua? Kiinteä IP pitää asettaa uudestaan?
-  - Pitää myös rakentaa sopiva teline mihin Raspi teknisessä tilassa pistetään (ettei tipu ja ettei tule liikaa pölyä päälle)
-  - Tarvitsee hoitaa sisäverkon kaapelointi tekniseen tilaan
-    - Reitittimeltä kaapeli takaisin talokaapeloinnin kautta tekniseen
-    - Teknisessä Raspi suoraan kiinni (tai kytkimen kautta jatkossa)
-
 - TODO: Luodaan reitittimen asetuksissa Port Forward-tunneli julkiverkosta SSH:ta varten kiinteän IP:n porttiin esim. `*:1234` -> `192.168.1.120:22`
   - Nyt pitäisi saada yhteys raspiin myös ulokoverkosta
   - TODO: Mutta ei saada, joko operaattorin päässä blokataan tämä tai reitittimien kanssa on jumppaamista
