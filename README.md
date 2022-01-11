@@ -14,6 +14,7 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
   - PortForwardin tekeminen reitittimen läpi (vai muu systeemi?)
   - Tietokannan varmuuskopiointi
   - Network/Docker watchdog käynnistämään uudestaan tarvittaessa ([ohjeet](https://www.meazurem.com/blog/raspberry-pi-with-network-watchdog/))
+  - CPU/GPU lämpötilat raspilta telegrafilla dashboardille
 - RUUVI
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Grafana-dashboardi
