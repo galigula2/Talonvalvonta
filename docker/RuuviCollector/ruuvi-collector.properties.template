@@ -37,7 +37,7 @@ measurementUpdateLimit=60000
 # blacklist = Allows all sources EXCEPT those listed
 # whitelist = Allows ONLY sources that are listed in filter.macs
 # named     = Allows ONLY sources that are listed in ruuvi-names.properties
-#filter.mode=none
+filter.mode=named
 
 # Mac addresses to blacklist/whitelist. This has no effect if filter.mode is set to none
 #filter.macs=ABCDEF012345,F1E2D3C4B5A6

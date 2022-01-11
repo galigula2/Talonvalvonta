@@ -182,7 +182,6 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
     - Kopioi kansiossa `Talonvalvonta/docker/RuuviCollector` löytyvät `ruuvi-collector.properties.template` ja `ruuvi-names.properties.template` tiedostot samaan kansioon ilman `.template`-päätteitä
     - Muokkaa `Talonvalvonta/src/RuuviCollector/ruuvi-collector.properties` tiedostoa
       - `influxPassword=<RuuviWriterPasswordToSet>` (Salasana sama kuin minkä asetit yllä)
-      - `filter.mode=named` (Kerätään vain ruuvi-names.properties-tiedostosta löytyvät)
     - Muokkaa `Talonvalvonta/src/RuuviCollector/ruuvi-names.properties` tiedostoa
       - Listaa tänne kaikki ne ruuvitagit joiden dataa olet lukemassa
       - Formaatti on `MAC-osoite`=`Nimi` (Saa olla ääkkösiä ja välilyöntejä)
