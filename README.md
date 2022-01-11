@@ -8,25 +8,28 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
 
 ## Next steps (Korkean tason TODO't)
 - YLEISET
-  - Telegraf-agentin konfiguraatio ja Grafanaan Telegraf-dashboard autoprovisioitumaan 
+  - Telegraf-agentin konfiguraatio
+  - Grafanaan dashboard autoprovisioitumaan
+  - Grafanalle joku simppeli käyttäjä (automaattinen luonti?) 
   - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
   - Alert-channelin konffaamminen
-  - PortForwardin tekeminen reitittimen läpi (vai muu systeemi?)
-  - Tietokannan varmuuskopiointi
+  - PortForwardin tekeminen reitittimen läpi (vai muu systeemi? tutkitaan voiko grafanan dashboardit uploadata jonnekin näkyville)
+    - Tässä vaiheessa voisi riittää vain [Dashboardin snapshotin publishaaminen](https://grafana.com/docs/grafana/latest/sharing/share-dashboard/#publish-a-snapshot)
+    - Eri juttu sitten jos halutaan jotain laajempaa kotiautomaatiota tai kameroita tarjota
+  - Tietokannan varmuuskopioinnin valmistelu
   - Network/Docker watchdog käynnistämään uudestaan tarvittaessa ([ohjeet](https://www.meazurem.com/blog/raspberry-pi-with-network-watchdog/))
   - CPU/GPU lämpötilat raspilta telegrafilla dashboardille
 - RUUVI
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
-  - Grafana-dashboardi
-  - Kantamaongelman ratkaisu  
-  - Seinätelineiden tulostus (5kpl) + Tagien asennus (6kpl)
   - Alerttien konffaaminen
+  - Tutkitaan mitä vaihtoehtoja RuuviTageilla on external sensoreille ja oman softan kirjoittamiselle (Huonetermostaattien LED päällä vai ei?)
 - SÄHKÖMITTAUS
   - Valoanturin testaus kytkentälaudalla
   - Valoanturin kiinnityksen suunnittelu  
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Sähkömittauksen ohjelmiston suunnittelu  
-  - Ratkaisun kontitus ja käyttöönotto  
+  - Ratkaisun kontitus ja käyttöönotto
+  - Dashboardi tunti- tai minuuttitasoan kulutuksen seurantaan sekä reaaliaikakulutus ylös
   - Alerttien konffaaminen
 - LÄMMÖNVAIHDIN
   - Osahankinnat ja kaapelin valmistus
@@ -100,13 +103,6 @@ Production lifetime | 	The Raspberry Pi 4 Model B will remain in production unti
   - TODO: https://blog.anoff.io/2020-12-install-docker-raspi/#set-default-locale ?
   - TODO: https://blog.anoff.io/2020-12-install-docker-raspi/#disable-wifibluetooth (if not needed?)
  
-- TODO: Luodaan reitittimen asetuksissa Port Forward-tunneli julkiverkosta SSH:ta varten kiinteän IP:n porttiin esim. `*:1234` -> `192.168.1.120:22`
-  - Nyt pitäisi saada yhteys raspiin myös ulokoverkosta
-  - TODO: Mutta ei saada, joko operaattorin päässä blokataan tämä tai reitittimien kanssa on jumppaamista
-  - TODO: Onko itseasiassa SSH:lle ulkoverkosta tarvetta? Isompi tarve on saada Grana näkyviin julkiverkosta
-  - TODO: VAI ONKO TÄLLE JOTAIN TURVALLISEMPAA VAIHTOEHTOA?
-
-
 ## Ohjelmistot
 Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pääkoneella pyörii näistä kaikki ja mahdollisilla sivukoneilla ainakin Telegraf. Näin saadaan hyvä pohja erilaisten mittaussovellusten ajamiselle. 
 
@@ -186,22 +182,15 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
     - Kopioi kansiossa `Talonvalvonta/docker/RuuviCollector` löytyvät `ruuvi-collector.properties.template` ja `ruuvi-names.properties.template` tiedostot samaan kansioon ilman `.template`-päätteitä
     - Muokkaa `Talonvalvonta/src/RuuviCollector/ruuvi-collector.properties` tiedostoa
       - `influxPassword=<RuuviWriterPasswordToSet>` (Salasana sama kuin minkä asetit yllä)
-      - Jos haluat rajoittaa lukemisen vain tiettyihin RuuviTageihin
-        - `filter.mode=whitelist`
-        - `filter.macs=<MAC1>,<MAC2>` (Ne RuuviTagitjotka haluat kerätä)
+      - `filter.mode=named` (Kerätään vain ruuvi-names.properties-tiedostosta löytyvät)
     - Muokkaa `Talonvalvonta/src/RuuviCollector/ruuvi-names.properties` tiedostoa
       - Listaa tänne kaikki ne ruuvitagit joiden dataa olet lukemassa
-      - Formaatti on `MAC-osoite`=`Nimi`
+      - Formaatti on `MAC-osoite`=`Nimi` (Saa olla ääkkösiä ja välilyöntejä)
   - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
     - Mene hakemistoon `Talonvalvonta/docker/compose-files/RuuviCollector/`
     - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
     - Tarkista, että `ruuvi-collector` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
-- TODO: Mitä sitten jos RuuviTagit ei kuulukaan koko talosta?
-  - External-antenni? / Erillinen bluetooth usb-dongle paremmall antennilla?
-  - Rasberry PI Zero jonnekin tukiasemaksi? Olisiko tällä jotain muutakin käyttöä?
-  - Ilmeisesti tukee myös Mesh-noodia, mietitään
-- TODO: Tutkitaan mitä vaihtoehtoja RuuviTageilla on external sensoreille ja oman softan kirjoittamiselle
-  - Potentiaalia esimerkiksi katsomaan onko lattialämmityksen punainen ledi päällä vai ei
+- Sopiva 3D-printattava wallmount löytyy [Thingiversestä](https://www.thingiverse.com/thing:3535838)
 
 ## Sähkönkulutus LED-indikaattorista
 - Perusajatus täältä: https://hyotynen.iki.fi/kotiautomaatio/sahkonkulutuksen-seurantaa/
@@ -213,7 +202,7 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
 - https://medium.com/@ville.alatalo/diy-omakotitalon-l%C3%A4mmityksen-mittaaminen-ja-visualisointi-cacfcd974a44
 - https://olammi.iki.fi/sw/taloLogger/ (Python 2.4+)
 - https://github.com/alatalo/ouman-collector (Python 2.7)
-- TODO: Selvitä mitä takuulle tapahtuu jos laitteeseen kolvaa sarjaporttikytkennän 
+- TODO: Selvitä mitä takuulle tapahtuu jos laitteen kuoren avaa ja kytkee sarjaporttiliittimen
 
 ## Swegon Casa R120 (???)
 
