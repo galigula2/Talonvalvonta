@@ -18,6 +18,7 @@ services:
       - $HOME/Talonvalvonta/docker/grafana/data:/var/lib/grafana # data path
       - $HOME/Talonvalvonta/docker/grafana/grafana.ini:/etc/grafana/grafana.ini
       - $HOME/Talonvalvonta/docker/grafana/provisioning:/etc/grafana/provisioning
+      - $HOME/Talonvalvonta/docker/grafana/dashboards:/var/lib/grafana_dashboards
     environment:
       - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}

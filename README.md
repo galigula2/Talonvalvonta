@@ -9,7 +9,6 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
 ## Next steps (Korkean tason TODO't)
 - YLEISET
   - Telegraf-agentin konfiguraatio
-  - Grafanaan dashboard autoprovisioitumaan
   - Grafanalle joku simppeli käyttäjä (automaattinen luonti?) 
   - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
   - Alert-channelin konffaamminen
@@ -156,12 +155,9 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
   - Kun kontti on ajossa siihen voi ottaa suoraan yhteyttä selaimella `192.168.1.120:3000`
   - Admin-käyttö vaatii aikaisemmin asetetun salasanan
 - Dashoboardit
-  - TODO: Telegraf metrics dashboard oletuksena
-  - TODO: Eri mittausten dashboardit?
-  - TODO: Nämä halutaan provisioitumaan automaattisesti!
-  - Reaaliaikadashboard jonne streamataan 5s välein tietoa esim. sähkönkulutus juuri tällä hetkellä? (Vai riittääkö downsamplauksella kikkailu? kiinnostaako tiukka tahti graafina?)
-  - Muuten minuutin välein päivittyvä dasboardi.
-  - Säilytysaikaluokat riippuu mittauksista (ks. alla)
+  - TODO: Reaaliaikadashboard jonne streamataan 5s välein tietoa esim. sähkönkulutus juuri tällä hetkellä? (Vai riittääkö downsamplauksella kikkailu? kiinnostaako tiukka tahti graafina?)
+     - Olisko tämä data siltikin provider?
+  - Perusdashboardi on määritelty `Talonvalvonta/docker/grafana/dashboards/perusnaytto.json` ja muutokset olisi hyvä tallentaa sinne esim. kun tulee uusia mittauksia
 
 # Mittaukset
 
