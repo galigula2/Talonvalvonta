@@ -23,12 +23,20 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
   - Alerttien konffaaminen
   - Tutkitaan mitä vaihtoehtoja RuuviTageilla on external sensoreille ja oman softan kirjoittamiselle (Huonetermostaattien LED päällä vai ei?)
 - SÄHKÖMITTAUS
-  - Valoanturin testaus kytkentälaudalla
-  - Valoanturin kiinnityksen suunnittelu  
-  - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
+  - Valoanturin kiinnityksen ja koteloinnin teko
+    - Sensori siirretään anturilevyn toiselle puolelle (kolvaten)
+    - Sensorin päälle mustaa teippiä paitsi aivan kärkeen (vai riittääkö esim. ylimääräinen legorengas tähän?)
+    - Sopivan mittaiset johdot, kutistesukkaa, reikävanteesta aisa, siistiminen ja suojaus
+    - Paikalleen teknisessä tilassa ja herkkyyden säätäminen
+  - Raspiin kytkentä
+    - Raspin koteloon aukko GPIO-pinneille / lattakaapeliläpivienti? Kotelon avaus ilman johtojen irrotusta plussaa
+    - Pinnien nimet ja paikat näkyviin jonnekin
+    - Samalla Raspin siilit asentaen?
+    - Tänne sivulle kuva raspin pinneistä mitkä käytössä ja piuhojen värikoodaukset
   - Sähkömittauksen ohjelmiston suunnittelu  
   - Ratkaisun kontitus ja käyttöönotto
   - Dashboardi tunti- tai minuuttitasoan kulutuksen seurantaan sekä reaaliaikakulutus ylös
+  - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Alerttien konffaaminen
 - LÄMMÖNVAIHDIN
   - Osahankinnat ja kaapelin valmistus
