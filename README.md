@@ -8,7 +8,6 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
 
 ## Next steps (Korkean tason TODO't)
 - YLEISET
-  - Grafanalle joku simppeli käyttäjä (automaattinen luonti?) 
   - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
   - PortForwardin tekeminen reitittimen läpi (vai muu systeemi? tutkitaan voiko grafanan dashboardit uploadata jonnekin näkyville)
     - Tässä vaiheessa voisi riittää vain [Dashboardin snapshotin publishaaminen](https://grafana.com/docs/grafana/latest/sharing/share-dashboard/#publish-a-snapshot)

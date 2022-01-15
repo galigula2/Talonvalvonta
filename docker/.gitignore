@@ -1,7 +1,8 @@
+# Don't commit instance data folders
 influxdb/data
 grafana/data
-**/.env
 
-# Don't commit files with actual instance data / passwords
+# Don't commit files with actual instance data / secrets
+**/.env
 RuuviCollector/ruuvi-collector.properties
 RuuviCollector/ruuvi-names.properties
