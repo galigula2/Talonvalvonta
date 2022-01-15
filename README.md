@@ -8,7 +8,6 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
 
 ## Next steps (Korkean tason TODO't)
 - YLEISET
-  - Telegraf-agentin konfiguraatio
   - Grafanalle joku simppeli käyttäjä (automaattinen luonti?) 
   - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
   - Alert-channelin konffaamminen
@@ -17,7 +16,7 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
     - Eri juttu sitten jos halutaan jotain laajempaa kotiautomaatiota tai kameroita tarjota
   - Tietokannan varmuuskopioinnin valmistelu
   - Network/Docker watchdog käynnistämään uudestaan tarvittaessa ([ohjeet](https://www.meazurem.com/blog/raspberry-pi-with-network-watchdog/))
-  - CPU/GPU lämpötilat raspilta telegrafilla dashboardille
+  - Telegraf:n hostname resettaa uuteen arvoon jossain tapauksissa. Mistä johtuu?
 - RUUVI
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Alerttien konffaaminen

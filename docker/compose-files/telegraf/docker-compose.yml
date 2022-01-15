@@ -13,5 +13,6 @@ services:
     networks: [metrics]
     volumes:
       - $HOME/Talonvalvonta/docker/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - $HOME/Talonvalvonta/docker/telegraf/scripts:/etc/telegraf/scripts
     environment:
       - INFLUX_TOKEN=${INFLUXDB_TELEGRAF_TOKEN}
