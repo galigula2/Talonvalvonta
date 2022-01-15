@@ -1,0 +1,20 @@
+notifiers:
+  - name: DiscordNotifier
+    type: discord
+    uid: notifier1
+    org_name: Main Org.
+    is_default: true
+    send_reminder: true
+    frequency: 1h
+    disable_resolve_message: false
+    # See `Supported Settings` section for settings supported for each
+    # alert notification type.
+    settings:
+      use_discord_username: true
+      url: $GRAFANA_DISCORD_NOTIFIER_WEBHOOK # NOTE: this fails if placed in to secure_settings
+    # Secure settings that will be encrypted in the database (supported since Grafana v7.2). See `Supported Settings` section for secure settings supported for each notifier.
+    secure_settings:
+      
+      
+
+delete_notifiers: 

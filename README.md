@@ -10,12 +10,13 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
 - YLEISET
   - Grafanalle joku simppeli käyttäjä (automaattinen luonti?) 
   - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
-  - Alert-channelin konffaamminen
   - PortForwardin tekeminen reitittimen läpi (vai muu systeemi? tutkitaan voiko grafanan dashboardit uploadata jonnekin näkyville)
     - Tässä vaiheessa voisi riittää vain [Dashboardin snapshotin publishaaminen](https://grafana.com/docs/grafana/latest/sharing/share-dashboard/#publish-a-snapshot)
     - Eri juttu sitten jos halutaan jotain laajempaa kotiautomaatiota tai kameroita tarjota
   - Tietokannan varmuuskopioinnin valmistelu
   - Network/Docker watchdog käynnistämään uudestaan tarvittaessa ([ohjeet](https://www.meazurem.com/blog/raspberry-pi-with-network-watchdog/))
+  - Perustason alerit (esim. CPU Temp)
+  - Alert notifier autoprovisioitumaan (setupattu ohjeiden mukaan, mutta https://community.grafana.com/t/provisioning-contact-points/56281/3)
 - RUUVI
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Alerttien konffaaminen
@@ -145,8 +146,9 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
 ### Grafana
 - Visualisointityöalu aikasarjadatalle
 - Perustuu https://blog.anoff.io/2021-01-howto-grafana-on-raspi/ mutta tarvittavat kansiot ja kooditiedostot luodaan repossa olevilla tiedostoilla
+- Valmistele Discord-webhookki [näillä ohjeilla](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 - Listaa tokenit komennolla `docker exec -it influxdb influx auth list` ja kopioi Grafana -tokenin arvo (3. sarake) talteen
-  - Kopioi secrets-template kansiossa `Talonvalvonta/docker/compose-files/grafana` tiedosto `secrets.env.template` tiedostoksi `.env` ja täytä token äsken kopioidulla arvolla
+  - Kopioi secrets-template kansiossa `Talonvalvonta/docker/compose-files/grafana` tiedosto `secrets.env.template` tiedostoksi `.env` ja täytä token äsken kopioidulla arvolla ja Discord webhook urlilla
   - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
     - Mene hakemistoon `Talonvalvonta/docker/compose-files/grafana/`
     - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
