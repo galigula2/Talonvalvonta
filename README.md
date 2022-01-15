@@ -16,11 +16,9 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
     - Eri juttu sitten jos halutaan jotain laajempaa kotiautomaatiota tai kameroita tarjota
   - Tietokannan varmuuskopioinnin valmistelu
   - Network/Docker watchdog käynnistämään uudestaan tarvittaessa ([ohjeet](https://www.meazurem.com/blog/raspberry-pi-with-network-watchdog/))
-  - Telegraf:n hostname resettaa uuteen arvoon jossain tapauksissa. Mistä johtuu?
 - RUUVI
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Alerttien konffaaminen
-  - Tutkitaan mitä vaihtoehtoja RuuviTageilla on external sensoreille ja oman softan kirjoittamiselle (Huonetermostaattien LED päällä vai ei?)
 - SÄHKÖMITTAUS
   - Raspiin kytkentä
     - Raspin koteloon aukko GPIO-pinneille / lattakaapeliläpivienti? Kotelon avaus ilman johtojen irrotusta plussaa
@@ -137,7 +135,7 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
 - Esimerkeissä deployattu yleensä influxdb:n kanssa samassa, mutta Influxdb2 tokeneita ei saa ohjelmallisesti luotua käynnistyksen yhteydessä kätevästi --> tehdään erilllään. Lisähyötynä nämä saa helposti erillisiin koneisiin talteen.
 - Käyttönotto
   - Listaa tokenit komennolla `docker exec -it influxdb influx auth list` ja kopioi Telegraf-tokenin arvo (3. sarake) talteen
-  - Kopioi secrets-template kansiossa `Talonvalvonta/docker/compose-files/telegraf` tiedosto `secrets.env.template` tiedostoksi `.env` ja täytä token äsken kopioidulla arvolla
+  - Kopioi secrets-template kansiossa `Talonvalvonta/docker/compose-files/telegraf` tiedosto `secrets.env.template` tiedostoksi `.env` ja täytä token äsken kopioidulla arvolla + anna nimi tälle instanssille
   - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
     - Mene hakemistoon `Talonvalvonta/docker/compose-files/telegraf/`
     - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
@@ -188,6 +186,8 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
     - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
     - Tarkista, että `ruuvi-collector` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
 - Sopiva 3D-printattava wallmount löytyy [Thingiversestä](https://www.thingiverse.com/thing:3535838)
+- Ruuvi Pro:t pystyvät kuuntelemaan myös ulkopuolista anturia
+  - Tässä olisi mahdollista tehdä talon sisällä termostaatitarkkailua, mutta voi mennä säätämiseksi
 
 ## Sähkönkulutus LED-indikaattorista
 - Perusajatus täältä: https://hyotynen.iki.fi/kotiautomaatio/sahkonkulutuksen-seurantaa/
