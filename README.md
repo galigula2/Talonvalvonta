@@ -17,6 +17,7 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
   - Perustason alerit (esim. CPU Temp)
   - Alert notifier autoprovisioitumaan (setupattu ohjeiden mukaan, mutta https://community.grafana.com/t/provisioning-contact-points/56281/3)
 - RUUVI
+  - Saunan ruuvitagille puinen kotelo (printattu pehmenee liikaa)
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Alerttien konffaaminen
 - SÄHKÖMITTAUS
