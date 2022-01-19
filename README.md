@@ -203,6 +203,10 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
 - Tilattiin [LM393-Valosensorimoduuli](https://www.elektroniikkaosat.com/c-67/p-163360505/Valosensorimoduuli-fotodiodi.html) joka antaa digitaalisen ulostulon
 - Kytketään tämä suoraan Raspbin GPIO-pinneihin ja tehdään python-applikaatio joka interruptaa nousevalla reunalla --> saadaan pulssit nätisti kiinni
 - Tarvitsee vielä logiikan joka laskee ja lähettää hetkellisen kulutuksen (esim. 5s päivitysvälillä ja tunti/minuutti/päiväkohtaisen kumulatiivisen arvon Influxiin)
+- GPIO-pinnit kytkennät LM393-sensorilaudan pinneihin
+  - VCC -> 3.3V
+  - GND -> GND
+  - DO -> GPIO24
 
 ## Lämmönvaihtimen data (vesien lämpötilat, ulkolämpötila)
 - https://medium.com/@ville.alatalo/diy-omakotitalon-l%C3%A4mmityksen-mittaaminen-ja-visualisointi-cacfcd974a44
