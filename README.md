@@ -41,6 +41,7 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
 # Rasp berry PI 4 Model B
 
 [Technical Documentation](https://www.raspberrypi.com/documentation/)
+[Vinkkejä viilentämiseen](https://www.freva.com/placing-heatsinks-on-the-raspberry-pi-4/)
 
 ## Speksit
 
