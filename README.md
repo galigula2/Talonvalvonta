@@ -56,6 +56,13 @@ SD card support	| Micro SD card slot for loading operating system and data stora
 Input Power	| 5V DC via USB-C connector
 Production lifetime | 	The Raspberry Pi 4 Model B will remain in production until at least January 2026.
 
+## GPIO Pinnit
+Raspberryssä on 40 kpl ohjelmoitavia GPIO-pinnejä. Pinnien nimet ja asema laudalla on esitetty kuvassa alla. Parempi interaktiivinen ohje löytyy [täältä](https://pinout.xyz/). 
+
+![GPIOPins](/diagrams/GPIOPins.png)
+
+Alla olevat ohjeet käyttävät pinneille tässä kuvassa näkyviä nimiä.
+
 ## Perusasetukset
 - Asennetaan `Raspberry Pi OS Lite 64 bit`
   - HUOM! 64 bittinen versio on tarpeen mm. InfluxDB:n takia (heiltä löytyy vain ARM64-docker imaget)
