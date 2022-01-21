@@ -43,9 +43,6 @@ while True:
     # Calculate total energy consuption since start of script
     totalEnergy = totalPulses / PULSES_PER_KWH
 
-    # TODO: Are the calculations correct? Waterheater drew ~2kW and that made power jump from 2kW -> 6kW
-    # TODO: Full solution here? seems quite complex https://github.com/ivyleavedtoadflax/elec dockerfile could at least be utilized
-
     # Print details
     print(f"Power: {power:0.1f} kW     Total: {totalEnergy:0.3f} kWh    Pulses: {lastIntervalPulses}    PulseInterval: {int(pulseDistance*1000)}ms")
 
