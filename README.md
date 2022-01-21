@@ -21,7 +21,7 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Alerttien konffaaminen
 - SÄHKÖMITTAUS
-  - Sähkömittauksen ohjelmiston suunnittelu  
+  - Sähkömittauksen tallennuksen suunnittelu (hetkellinen power live streaminä grafanaan, 15 tai 60min kulutuslukemat influxdb:hen, konfiguraatiofilestä luku)
   - Ratkaisun kontitus ja käyttöönotto
   - Dashboardi tunti- tai minuuttitasoan kulutuksen seurantaan sekä reaaliaikakulutus ylös
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
@@ -201,13 +201,22 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
 
 ## Sähkönkulutus LED-indikaattorista
 - Perusajatus täältä: https://hyotynen.iki.fi/kotiautomaatio/sahkonkulutuksen-seurantaa/
-- Tilattiin [LM393-Valosensorimoduuli](https://www.elektroniikkaosat.com/c-67/p-163360505/Valosensorimoduuli-fotodiodi.html) joka antaa digitaalisen ulostulon
-- Kytketään tämä suoraan Raspbin GPIO-pinneihin ja tehdään python-applikaatio joka interruptaa nousevalla reunalla --> saadaan pulssit nätisti kiinni
-- Tarvitsee vielä logiikan joka laskee ja lähettää hetkellisen kulutuksen (esim. 5s päivitysvälillä ja tunti/minuutti/päiväkohtaisen kumulatiivisen arvon Influxiin)
-- GPIO-pinnit kytkennät LM393-sensorilaudan pinneihin
-  - VCC -> 3.3V
-  - GND -> GND
-  - DO -> GPIO24
+- Käyttöönotto
+  - Tilaa [LM393-Valosensorimoduuli](https://www.elektroniikkaosat.com/c-67/p-163360505/Valosensorimoduuli-fotodiodi.html) joka antaa digitaalisen ulostulon
+  - Rakenna teline joka pitää sensorin sähkömittarin LED:n kohdalla ja suojaa fotodiodia turhalta valolta
+  - Kytketään tämä suoraan Raspbin GPIO-pinneihin 
+    - VCC -> 3.3V
+    - GND -> GND
+    - DO -> GPIO24
+    - Säädä sensorimoduulin herkkyys potikasta niin, että moduulin led välkkyy sähkömittarin ledin tahdissa (tarkista, että toimii valot päällä ja pois!)
+  - Haetaan sopivat parametrit ajamalla `python3 test/electricity.py` laitteella ja varmistamalla, että mittausvälin aikana luetut pulssit LED:n välähdyksiä. 
+    - Parametrit säädetään suoraan scriptin sisältä.
+    - `BCM_CHANNEL`: Mistä kanavasta signaali luetaan (Tässä käytetään GPIO24:sta niin arvoksi tulee `24`)
+    - `RECORDING_INTERVAL_SECONDS`: Mittausikkunan pituus sekunteissa. Esim `5`
+    - `PULSES_PER_KWH`: Sähkömittarin kyljestä luetu arvo kuinka monta pulssia vastaa yhtä kilowattituntia. Itsellä oli `10000` 
+    - `BOUNCE_MS`: Huomioidaan digitaalisignaalin huojunta tilan vaihtuessa laittamalla minimiväli signaaleille millisekunneissa. Sopiva arvo löytyy kokeilemalla, mutta itsellä >=3ms arvot näyttivät toimivan. Laitoin arvoksi `5` varmuuden vuoksi joka pitäisi olla riittävän pieni kaikille tarvittaville kulutuslukemille (5ms maksimiväli tarkoittaa itsellä n.71kW maksimi mitattavaa kulutusta mikä ei pitäisi koskaan tulla vastaan)
+  - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
+    - TODO: Ohjeet kopioida parametrit ja käynnistää docker-kontti
 
 ## Lämmönvaihtimen data (vesien lämpötilat, ulkolämpötila)
 - https://medium.com/@ville.alatalo/diy-omakotitalon-l%C3%A4mmityksen-mittaaminen-ja-visualisointi-cacfcd974a44
