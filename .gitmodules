@@ -1,3 +1,6 @@
 [submodule "src/RuuviCollector"]
 	path = src/RuuviCollector
 	url = https://github.com/Scrin/RuuviCollector.git
+[submodule "src/EnergyPulseReader"]
+	path = src/EnergyPulseReader
+	url = https://github.com/galigula2/EnergyPulseReader.git
