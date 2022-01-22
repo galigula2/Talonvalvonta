@@ -1,0 +1,17 @@
+version: "3"
+
+networks:
+  metrics:
+    external: true
+    name: influxdb_metrics
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2.0.14
+    restart: always
+    ports:
+      - "1883:1883"
+    container_name: mosquitto
+    networks: [metrics]
+    volumes:
+      - $HOME/Talonvalvonta/docker/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro

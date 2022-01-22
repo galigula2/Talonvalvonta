@@ -9,6 +9,9 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
 ## Next steps (Korkean tason TODO't)
 - YLEISET
   - MQTT-asennus ja Grafana plugari valmiiksi
+    - Plugarin asennus ja valmistelu https://github.com/grafana/mqtt-datasource
+    - Käytännössä tuon voisi pre-buildata ja tarjoilla plugarikansioon suoraan
+    - Kysytty voisiko tuo löytyä prebuild-zippinä jo ennen virallista julkaisua täällä https://github.com/grafana/mqtt-datasource/issues/29
   - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
   - [Dashboardin snapshotin publishaaminen](https://grafana.com/docs/grafana/latest/sharing/share-dashboard/#publish-a-snapshot)
     - Tämä riittää nyt, eri juttu sitten jos halutaan jotain laajempaa kotiautomaatiota tai kameroita tarjota
@@ -16,6 +19,7 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
   - Network/Docker watchdog käynnistämään uudestaan tarvittaessa ([ohjeet](https://www.meazurem.com/blog/raspberry-pi-with-network-watchdog/))
   - Perustason alerit (esim. CPU Temp)
   - Alert notifier autoprovisioitumaan (setupattu ohjeiden mukaan, mutta https://community.grafana.com/t/provisioning-contact-points/56281/3)
+  - Lokitus konteilta? Hälytykset niistä?
 - RUUVI
   - Saunan ruuvitagille puinen kotelo (printattu pehmenee liikaa)
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
@@ -150,6 +154,16 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
     - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
     - Tarkista, että `telegraf` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
     - Tarkista Influxdb-UI:sta, että dataa tulee sisälle
+
+### MQTT (Eclipse Mosquitto)
+- MQTT-palvelu reaaliaikaisten mittausten välittämiseen suoraan Grafanalle
+- Tukee myöhemmin myös muita MQTT-pohjaisia toimintoja
+- Sallii yhteydet vain samalta koneelta joten ajetaan ilman autentikointia
+- Käyttönotto
+  - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
+    - Mene hakemistoon `Talonvalvonta/docker/compose-files/mosquitto/`
+    - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
+    - Tarkista, että `mosquitto` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
 
 ### Grafana
 - Visualisointityöalu aikasarjadatalle
