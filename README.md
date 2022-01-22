@@ -1,17 +1,17 @@
 # Talonvalvontaprojekti
 
-Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennetaan tekniseen tilaan sopivasti toimilaitteiden ja verkkokaapin läheisyyteen. Raspilla ajetaan työkuormia Docker-konteissa jolloin eri osat pysyvät hyvin erillään toisistaan.
+Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennetaan tekniseen tilaan sopivasti toimilaitteiden ja verkkokaapin läheisyyteen. Raspilla ajetaan työkuormia Docker-konteissa jolloin eri osat pysyvät hyvin erillään toisistaan. Säilytettävä data tallennetaan InfluxDB-tietokantaan josta se visualisoidaan Grafanalla. Reaaliaikamittaukset (esim. hetkellinen sähkön kulutus) streamataan suoraan Grafanalle MQTT:n yli. 
 
- Grafanan UI julkaistaan reitittimen läpi internettiin DynDNS tai vastaavan avulla --> myös kotiverkosta pääsee kätevästi katsomaan käyriä. Järjestelmä seuraa talon eri osia ja sieltä on mahdollista lähettää myös hälytyksiä tiettyjen raja-arvojen ylittyessä.
+Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmään jolloin reitittimen läpi ei tarvitse avata putkea Raspille. Järjestelmä seuraa talon eri osia ja sieltä on mahdollista lähettää myös hälytyksiä tiettyjen raja-arvojen ylittyessä.
 
 ![Overall picture](/diagrams/Talonvalvonta.png)
 
 ## Next steps (Korkean tason TODO't)
 - YLEISET
+  - MQTT-asennus ja Grafana plugari valmiiksi
   - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
-  - PortForwardin tekeminen reitittimen läpi (vai muu systeemi? tutkitaan voiko grafanan dashboardit uploadata jonnekin näkyville)
-    - Tässä vaiheessa voisi riittää vain [Dashboardin snapshotin publishaaminen](https://grafana.com/docs/grafana/latest/sharing/share-dashboard/#publish-a-snapshot)
-    - Eri juttu sitten jos halutaan jotain laajempaa kotiautomaatiota tai kameroita tarjota
+  - [Dashboardin snapshotin publishaaminen](https://grafana.com/docs/grafana/latest/sharing/share-dashboard/#publish-a-snapshot)
+    - Tämä riittää nyt, eri juttu sitten jos halutaan jotain laajempaa kotiautomaatiota tai kameroita tarjota
   - Tietokannan varmuuskopioinnin valmistelu
   - Network/Docker watchdog käynnistämään uudestaan tarvittaessa ([ohjeet](https://www.meazurem.com/blog/raspberry-pi-with-network-watchdog/))
   - Perustason alerit (esim. CPU Temp)
@@ -21,9 +21,9 @@ Järjestelmän ytimenä toimii RasberryPI 4 Model B korttitietokone joka asennet
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Alerttien konffaaminen
 - SÄHKÖMITTAUS
-  - Sähkömittauksen tallennuksen suunnittelu (hetkellinen power live streaminä grafanaan, 15 tai 60min kulutuslukemat influxdb:hen, konfiguraatiofilestä luku)
+  - Sähkömittauksen tallennuksen suunnittelu (hetkellinen power live streaminä grafanaan MQTT yli)
   - Ratkaisun kontitus ja käyttöönotto
-  - Dashboardi tunti- tai minuuttitasoan kulutuksen seurantaan sekä reaaliaikakulutus ylös
+  - Dashboardi 15-minuutin sloteissa kulutuksen seurantaan kulutuksen seurantaan sekä reaaliaikakulutus ylös
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Alerttien konffaaminen
 - LÄMMÖNVAIHDIN
