@@ -27,8 +27,9 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
   - Alerttien konffaaminen
 - SÄHKÖMITTAUS
   - Sähkömittauksen hetkellisen powerin välitys MQTT:n yli
-  - Dashboardi 15-minuutin sloteissa kulutuksen seurantaan kulutuksen seurantaan sekä reaaliaikakulutus ylös
+  - Grafana dashboardiin reaaliaikakulutus mittariin
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
+  - Mitkä kulutukset näytetään punaisella? keltaisella jne?
   - Alerttien konffaaminen
 - LÄMMÖNVAIHDIN
   - Osahankinnat ja kaapelin valmistus
@@ -242,7 +243,9 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
       - TODO: MQTT-tiedot kunhan ne on kunnossa
 
   - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
-    - TODO: Ohjeet kopioida parametrit ja käynnistää docker-kontti
+    - Mene hakemistoon `Talonvalvonta/docker/compose-files/EnergyPulseReader/`
+    - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
+    - Tarkista, että `energy-pulse-reader` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
 
 ## Lämmönvaihtimen data (vesien lämpötilat, ulkolämpötila)
 - https://medium.com/@ville.alatalo/diy-omakotitalon-l%C3%A4mmityksen-mittaaminen-ja-visualisointi-cacfcd974a44
