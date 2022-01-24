@@ -195,12 +195,12 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
   - Ajetaan Dockerin sisällä managementin helpottamiseksi
   - Kirjoitetaan InfluxDB:hen [V1 Compatibility API](https://docs.influxdata.com/influxdb/v2.1/reference/api/influxdb-1x):a hyödyntäen
 - Käyttöönotto
-  - Asete salasana automaattisesti luodulle ruuvi-writer-käyttäjälle komennolla `docker exec -it influxdb influx v1 auth set-password --username ruuvi-writer --password <RuuviWriterPasswordToSet>`
+  - Aseta salasana automaattisesti luodulle ruuvi-writer-käyttäjälle komennolla `docker exec -it influxdb influx v1 auth set-password --username ruuvi-writer --password <RuuviWriterPasswordToSet>`
   - Valmistele Docker-paketti paikallisesti
     - Mene kansioon `Talonvalvonta/src/RuuviCollector`
     - Luo Docker-paketti komennolla `docker build -t ruuvi-collector .`
     - Tähän ei pitäisi juuri joutua koskemaan ellei RuuviCollectorista tule uutta versiota
-  - Sääsä asetukset
+  - Säädä asetukset
     - Kopioi kansiossa `Talonvalvonta/docker/RuuviCollector` löytyvät `ruuvi-collector.properties.template` ja `ruuvi-names.properties.template` tiedostot samaan kansioon ilman `.template`-päätteitä
     - Muokkaa `Talonvalvonta/src/RuuviCollector/ruuvi-collector.properties` tiedostoa
       - `influxPassword=<RuuviWriterPasswordToSet>` (Salasana sama kuin minkä asetit yllä)
@@ -217,6 +217,10 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
 
 ## Sähkönkulutus LED-indikaattorista
 - Perusajatus täältä: https://hyotynen.iki.fi/kotiautomaatio/sahkonkulutuksen-seurantaa/
+- Valmistele Docker-paketti paikallisesti
+  - Mene kansioon `Talonvalvonta/src/EnergyPulseReader`
+  - Luo Docker-paketti komennolla `docker build -t pulse-reader .`
+  - Tähän ei pitäisi juuri joutua koskemaan ellei EnergyPulseReaderistä tule uutta versiota
 - Käyttöönotto
   - Tilaa [LM393-Valosensorimoduuli](https://www.elektroniikkaosat.com/c-67/p-163360505/Valosensorimoduuli-fotodiodi.html) joka antaa digitaalisen ulostulon
   - Rakenna teline joka pitää sensorin sähkömittarin LED:n kohdalla ja suojaa fotodiodia turhalta valolta
@@ -231,6 +235,13 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
     - `RECORDING_INTERVAL_SECONDS`: Mittausikkunan pituus sekunteissa. Esim `5`
     - `PULSES_PER_KWH`: Sähkömittarin kyljestä luetu arvo kuinka monta pulssia vastaa yhtä kilowattituntia. Itsellä oli `10000` 
     - `BOUNCE_MS`: Huomioidaan digitaalisignaalin huojunta tilan vaihtuessa laittamalla minimiväli signaaleille millisekunneissa. Sopiva arvo löytyy kokeilemalla, mutta itsellä >=3ms arvot näyttivät toimivan. Laitoin arvoksi `5` varmuuden vuoksi joka pitäisi olla riittävän pieni kaikille tarvittaville kulutuslukemille (5ms maksimiväli tarkoittaa itsellä n.71kW maksimi mitattavaa kulutusta mikä ei pitäisi koskaan tulla vastaan)
+  - Säädä asetukset
+    - Kopioi kansiossa `Talonvalvonta/docker/PulseReader` löytyvä `energypulsereader.ini.example` tiedosto samaan kansioon ilman `.template`-päätteitä
+    - Muokkaa `Talonvalvonta/src/PulseReader/energypulsereader.ini` tiedostoa
+      - Aseta yllä haetut `BCM_CHANNEL`, `RECORDING_INTERVAL_SECONDS`,`PULSES_PER_KWH` ja `BOUNCE_MS` parametrit
+      - Aseta `[InfluxDB]`-osiossa olevat arvot haluttuihin arvoihin TODO: Luodan bucket + token influxiin automaattisesti
+      - TODO: MQTT-tiedot kunhan ne on kunnossa
+
   - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
     - TODO: Ohjeet kopioida parametrit ja käynnistää docker-kontti
 

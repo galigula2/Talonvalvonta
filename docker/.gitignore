@@ -4,5 +4,6 @@ grafana/data
 
 # Don't commit files with actual instance data / secrets
 **/.env
+PulseReader/energypulsereader.ini
 RuuviCollector/ruuvi-collector.properties
 RuuviCollector/ruuvi-names.properties
