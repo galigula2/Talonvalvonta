@@ -26,6 +26,7 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Alerttien konffaaminen
 - SÄHKÖMITTAUS
+  - Oikea bucketti luodaan automaattisesti ja tokenin valmistelu ja käyttöönotto
   - PulseReader vs EnergyPulseReader
   - Sähkömittauksen hetkellisen powerin välitys MQTT:n yli
   - Dashboardi 15-minuutin sloteissa kulutuksen seurantaan kulutuksen seurantaan sekä reaaliaikakulutus ylös
