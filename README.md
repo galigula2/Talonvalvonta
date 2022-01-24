@@ -27,7 +27,6 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
   - Alerttien konffaaminen
 - SÄHKÖMITTAUS
   - Oikea bucketti luodaan automaattisesti ja tokenin valmistelu ja käyttöönotto
-  - PulseReader vs EnergyPulseReader
   - Sähkömittauksen hetkellisen powerin välitys MQTT:n yli
   - Dashboardi 15-minuutin sloteissa kulutuksen seurantaan kulutuksen seurantaan sekä reaaliaikakulutus ylös
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
@@ -219,7 +218,7 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
 - Perusajatus täältä: https://hyotynen.iki.fi/kotiautomaatio/sahkonkulutuksen-seurantaa/
 - Valmistele Docker-paketti paikallisesti
   - Mene kansioon `Talonvalvonta/src/EnergyPulseReader`
-  - Luo Docker-paketti komennolla `docker build -t pulse-reader .`
+  - Luo Docker-paketti komennolla `docker build -t energy-pulse-reader .`
   - Tähän ei pitäisi juuri joutua koskemaan ellei EnergyPulseReaderistä tule uutta versiota
 - Käyttöönotto
   - Tilaa [LM393-Valosensorimoduuli](https://www.elektroniikkaosat.com/c-67/p-163360505/Valosensorimoduuli-fotodiodi.html) joka antaa digitaalisen ulostulon
@@ -236,8 +235,8 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
     - `PULSES_PER_KWH`: Sähkömittarin kyljestä luetu arvo kuinka monta pulssia vastaa yhtä kilowattituntia. Itsellä oli `10000` 
     - `BOUNCE_MS`: Huomioidaan digitaalisignaalin huojunta tilan vaihtuessa laittamalla minimiväli signaaleille millisekunneissa. Sopiva arvo löytyy kokeilemalla, mutta itsellä >=3ms arvot näyttivät toimivan. Laitoin arvoksi `5` varmuuden vuoksi joka pitäisi olla riittävän pieni kaikille tarvittaville kulutuslukemille (5ms maksimiväli tarkoittaa itsellä n.71kW maksimi mitattavaa kulutusta mikä ei pitäisi koskaan tulla vastaan)
   - Säädä asetukset
-    - Kopioi kansiossa `Talonvalvonta/docker/PulseReader` löytyvä `energypulsereader.ini.example` tiedosto samaan kansioon ilman `.template`-päätteitä
-    - Muokkaa `Talonvalvonta/src/PulseReader/energypulsereader.ini` tiedostoa
+    - Kopioi kansiossa `Talonvalvonta/docker/EnergyPulseReader` löytyvä `energypulsereader.ini.example` tiedosto samaan kansioon ilman `.template`-päätteitä
+    - Muokkaa `Talonvalvonta/src/EnergyPulseReader/energypulsereader.ini` tiedostoa
       - Aseta yllä haetut `BCM_CHANNEL`, `RECORDING_INTERVAL_SECONDS`,`PULSES_PER_KWH` ja `BOUNCE_MS` parametrit
       - Aseta `[InfluxDB]`-osiossa olevat arvot haluttuihin arvoihin TODO: Luodan bucket + token influxiin automaattisesti
       - TODO: MQTT-tiedot kunhan ne on kunnossa

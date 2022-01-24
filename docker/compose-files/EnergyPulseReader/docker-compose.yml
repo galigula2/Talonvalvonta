@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  energy-pulse-reader:
+    privileged: true
+    network_mode: host
+    image: energy-pulse-reader:latest
+    restart: always
+    container_name: energy-pulse-reader
+    volumes:
+      - $HOME/Talonvalvonta/docker/EnergyPulseReader/energypulsereader.ini:/pulsereader/energypulsereader.ini:ro
