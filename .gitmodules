@@ -4,3 +4,6 @@
 [submodule "src/EnergyPulseReader"]
 	path = src/EnergyPulseReader
 	url = https://github.com/galigula2/EnergyPulseReader.git
+[submodule "src/mqtt-datasource"]
+	path = src/mqtt-datasource
+	url = https://github.com/grafana/mqtt-datasource.git
