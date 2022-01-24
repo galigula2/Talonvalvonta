@@ -16,7 +16,7 @@ MEAS_ACCUMULATED_ENERGY_REPORTING_INTERVAL_MINUTES = 15
 
 # InfluxDB settings for long time storage
 [InfluxDB]
-URL=<Where InfluxDB can be found>
-ORG=<What Organization to write to>
-BUCKET=<What bucket to write to>
+URL=http://localhost:8086
+ORG=Talonvalvonta
+BUCKET=energypulsereader
 TOKEN=<Token that allows writing to Org/Bucket above>

@@ -26,7 +26,6 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Alerttien konffaaminen
 - SÄHKÖMITTAUS
-  - Oikea bucketti luodaan automaattisesti ja tokenin valmistelu ja käyttöönotto
   - Sähkömittauksen hetkellisen powerin välitys MQTT:n yli
   - Dashboardi 15-minuutin sloteissa kulutuksen seurantaan kulutuksen seurantaan sekä reaaliaikakulutus ylös
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
@@ -238,7 +237,8 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
     - Kopioi kansiossa `Talonvalvonta/docker/EnergyPulseReader` löytyvä `energypulsereader.ini.example` tiedosto samaan kansioon ilman `.template`-päätteitä
     - Muokkaa `Talonvalvonta/src/EnergyPulseReader/energypulsereader.ini` tiedostoa
       - Aseta yllä haetut `BCM_CHANNEL`, `RECORDING_INTERVAL_SECONDS`,`PULSES_PER_KWH` ja `BOUNCE_MS` parametrit
-      - Aseta `[InfluxDB]`-osiossa olevat arvot haluttuihin arvoihin TODO: Luodan bucket + token influxiin automaattisesti
+      - Aseta `[InfluxDB]`-osiossa olevat arvot haluttuihin arvoihin
+        - `TOKEN`: Listaa tokenit komennolla `docker exec -it influxdb influx auth list` ja kopioi EnergyPulseReader-tokenin arvo (3. sarake) tähän
       - TODO: MQTT-tiedot kunhan ne on kunnossa
 
   - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
