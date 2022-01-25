@@ -1,0 +1,27 @@
+import "date"
+import "strings"
+import "experimental"
+
+// Query energy readings back -X days from current day. Takes current time in to account and returns full days back and current day up until current time.
+// -0d means only today, -1d means today and yesterday etc.
+from(bucket: "energypulsereader")
+  |> range(start: duration(v: uint(v: experimental.addDuration(d: -1d, to: today())) - uint(v: now())), stop: now())
+  |> filter(fn: (r) => r["_measurement"] == "consumption")
+  |> filter(fn: (r) => r["_field"] == "electricity_15min_kWh")
+  |> aggregateWindow(every: 1d, offset: -1s, fn: sum, createEmpty: false)
+  |> map(fn: (r) => ({ r with date: strings.substring(v: string(v: date.truncate(t: r._time, unit: 1d)), start: 0, end: 10) }))
+
+
+import "date"
+import "strings"
+import "experimental"
+
+// Query energy readings back -X months from current day. Takes current day/time in to account and returns full months back and current month up until current time.
+// -0mo means only current month, -1d means this month and previous etc.
+from(bucket: "energypulsereader")
+  |> range(start: duration(v: uint(v: experimental.addDuration(d: -1mo, to: date.truncate(t: today(), unit: 1mo))) - uint(v: now())), stop: now()) 
+  |> filter(fn: (r) => r["_measurement"] == "consumption")
+  |> filter(fn: (r) => r["_field"] == "electricity_15min_kWh")
+  |> aggregateWindow(every: 1mo, offset: -1s, fn: sum, createEmpty: false)
+  |> map(fn: (r) => ({ r with date: strings.substring(v: string(v: date.truncate(t: r._time, unit: 1mo)), start: 0, end: 7) }))
+
