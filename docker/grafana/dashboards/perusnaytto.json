@@ -290,7 +290,7 @@
             "type": "influxdb",
             "uid": "P5697886F9CA74929"
           },
-          "query": "import \"date\"\r\nimport \"strings\"\r\n\r\nfrom(bucket: \"energypulsereader\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"consumption\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"electricity_15min_kWh\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)",
+          "query": "from(bucket: \"energypulsereader\")\r\n  |> range(start: duration(v: uint(v: today()) - uint(v: now())), stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"consumption\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"electricity_15min_kWh\")\r\n  |> aggregateWindow(every: 15m, fn: mean, createEmpty: false)",
           "refId": "A"
         }
       ],
@@ -362,11 +362,11 @@
             "type": "influxdb",
             "uid": "P5697886F9CA74929"
           },
-          "query": "import \"date\"\r\nimport \"strings\"\r\n\r\nfrom(bucket: \"energypulsereader\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"consumption\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"electricity_15min_kWh\")\r\n  |> aggregateWindow(every: 1d, offset: -1s, fn: sum, createEmpty: false)\r\n  |> map(fn: (r) => ({ r with date: strings.substring(v: string(v: date.truncate(t: r._time, unit: 1d)), start: 0, end: 10) }))",
+          "query": "import \"date\"\r\nimport \"strings\"\r\nimport \"experimental\"\r\n\r\n// Query energy readings back -X days from current day. Takes current time in to account and returns full days back and current day up until current time.\r\n// -0d means only today, -1d means today and yesterday etc.\r\nfrom(bucket: \"energypulsereader\")\r\n  |> range(start: duration(v: uint(v: experimental.addDuration(d: -7d, to: today())) - uint(v: now())), stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"consumption\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"electricity_15min_kWh\")\r\n  |> aggregateWindow(every: 1d, offset: -1s, fn: sum, createEmpty: false)\r\n  |> map(fn: (r) => ({ r with date: strings.substring(v: string(v: date.truncate(t: r._time, unit: 1d)), start: 0, end: 10) }))",
           "refId": "A"
         }
       ],
-      "title": "Päiväkulutus",
+      "title": "Päiväkulutus (7pvä)",
       "type": "barchart"
     },
     {
@@ -434,11 +434,11 @@
             "type": "influxdb",
             "uid": "P5697886F9CA74929"
           },
-          "query": "import \"date\"\r\nimport \"strings\"\r\n\r\nfrom(bucket: \"energypulsereader\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"consumption\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"electricity_15min_kWh\")\r\n  |> aggregateWindow(every: 1mo, offset: -1s, fn: sum, createEmpty: false)\r\n  |> map(fn: (r) => ({ r with date: strings.substring(v: string(v: date.truncate(t: r._time, unit: 1mo)), start: 0, end: 7) }))",
+          "query": "import \"date\"\r\nimport \"strings\"\r\nimport \"experimental\"\r\n\r\n// Query energy readings back -X months from current day. Takes current day/time in to account and returns full months back and current month up until current time.\r\n// -0mo means only current month, -1d means this month and previous etc.\r\nfrom(bucket: \"energypulsereader\")\r\n  |> range(start: duration(v: uint(v: experimental.addDuration(d: -0mo, to: date.truncate(t: today(), unit: 1mo))) - uint(v: now())), stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"consumption\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"electricity_15min_kWh\")\r\n  |> aggregateWindow(every: 1mo, offset: -1s, fn: sum, createEmpty: false)\r\n  |> map(fn: (r) => ({ r with date: strings.substring(v: string(v: date.truncate(t: r._time, unit: 1mo)), start: 0, end: 7) }))",
           "refId": "A"
         }
       ],
-      "title": "Kuukausikulutus",
+      "title": "Kuukausikulutus (kuluva)",
       "type": "barchart"
     },
     {
