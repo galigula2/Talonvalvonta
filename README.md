@@ -27,6 +27,7 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
   - Alerttien konffaaminen
 - SÄHKÖMITTAUS
   - Sähkömittauksen hetkellisen powerin välitys MQTT:n yli
+  - Energiakulutus - Tänään dashboardissa on edelleen jotain häikkää, ei suostu tottelemaan tiukkoja rajoja
   - Grafana dashboardiin reaaliaikakulutus mittariin
   - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
   - Mitkä kulutukset näytetään punaisella? keltaisella jne?
