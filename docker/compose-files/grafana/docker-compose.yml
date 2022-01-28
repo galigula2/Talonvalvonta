@@ -19,8 +19,9 @@ services:
       - $HOME/Talonvalvonta/docker/grafana/grafana.ini:/etc/grafana/grafana.ini
       - $HOME/Talonvalvonta/docker/grafana/provisioning:/etc/grafana/provisioning
       - $HOME/Talonvalvonta/docker/grafana/dashboards:/var/lib/grafana_dashboards
+      - $HOME/Talonvalvonta/docker/grafana/custom_plugins:/custom_plugins
     environment:
-      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,/custom_plugins/mqtt-datasource.zip;mqtt-datasource
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
       - INFLUX_TOKEN=${INFLUXDB_GRAFANA_TOKEN}

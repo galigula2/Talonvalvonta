@@ -1,0 +1,9 @@
+apiVersion: 1
+
+datasources:
+  - name: Mosquitto_MQTT
+    type: grafana-mqtt-datasource
+    isDefault: false
+    jsonData:
+      host: mosquitto
+      port: 1883

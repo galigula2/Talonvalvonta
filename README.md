@@ -166,6 +166,15 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
     - Mene hakemistoon `Talonvalvonta/docker/compose-files/mosquitto/`
     - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
     - Tarkista, että `mosquitto` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
+- Grafana MQTT Pluginin valmistelu
+  - Tätä käytetään siirtämään reaaliaikadataa suoraan Grafanaan datalähteiltä
+  - Tällä hetkellä plugin on kehityksen alla ja ainoa tapa on kääntää se itse lähdekoodeista
+    - Grafana [MQTT DataSource](https://github.com/grafana/mqtt-datasource) löytyy `src/mqtt-datasource` kansion alta
+    - Jos pakettia ei ole vielä buildattu niin seuraa github:n ohjeita (ja huomioi [Debian-ohjeet](https://github.com/grafana/mqtt-datasource/issues/15))
+    - Jos yarn build valittaa linter-virheistä niin viallisiin tiedoistoihin voi laittaa `/* eslint-disable */` alkuun
+    - Käännös on nyt tehty tehtyä ja käännetty moduuli löytyy zipattuna paikasta `~/Talonvalvonta/docker/grafana/custom_plugins/mqtt-datasource.zip`
+    - Tämä on asetettu asentumaan ja autoprovisioitumaan automaattisesti
+
 
 ### Grafana
 - Visualisointityöalu aikasarjadatalle
