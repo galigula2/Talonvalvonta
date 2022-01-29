@@ -8,11 +8,7 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
 
 ## Next steps (Korkean tason TODO't)
 - YLEISET
-  - MQTT-asennus ja Grafana plugari valmiiksi
-    - Plugarin asennus ja valmistelu https://github.com/grafana/mqtt-datasource
-    - Käytännössä tuon voisi pre-buildata ja tarjoilla plugarikansioon suoraan
-    - Kysytty voisiko tuo löytyä prebuild-zippinä jo ennen virallista julkaisua täällä https://github.com/grafana/mqtt-datasource/issues/29
-    - Tämän jälkeen mqtt datasource autoprovisioitumaan grafanaan
+  - Kaikki TODO't reposta
   - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
   - [Dashboardin snapshotin publishaaminen](https://grafana.com/docs/grafana/latest/sharing/share-dashboard/#publish-a-snapshot)
     - Tämä riittää nyt, eri juttu sitten jos halutaan jotain laajempaa kotiautomaatiota tai kameroita tarjota
@@ -23,19 +19,17 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
   - Lokitus konteilta? Hälytykset niistä? InfluxDB ja MQTT metriikat? 
 - RUUVI
   - Saunan ruuvitagille puinen kotelo (printattu pehmenee liikaa)
-  - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
+  - Retentiopolicyn ja downsamplaamisen suunnittelu, mitä oikeastaan halutaan?
   - Alerttien konffaaminen
 - SÄHKÖMITTAUS
-  - Sähkömittauksen hetkellisen powerin välitys MQTT:n yli
   - Energiakulutus - Tänään dashboardissa on edelleen jotain häikkää, ei suostu tottelemaan tiukkoja rajoja
-  - Grafana dashboardiin reaaliaikakulutus mittariin
-  - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
+  - Retentiopolicyn ja downsamplaamisen suunnittelu, mitä oikeastaan halutaan?
   - Mitkä kulutukset näytetään punaisella? keltaisella jne?
   - Alerttien konffaaminen
 - LÄMMÖNVAIHDIN
   - Osahankinnat ja kaapelin valmistus
   - Kaapelin kytkeminen Oumaniin
-  - Retentiopolicyn ja downsamplaaminen suunnittelu, mitä oikeastaan halutaan?
+  - Retentiopolicyn ja downsamplaamisen suunnittelu, mitä oikeastaan halutaan?
   - TaloLoggerin valmistelu ja käyttöönotto
   - Alerttien konffaaminen (mitä tulee suoraan Oumanilta?)
 
