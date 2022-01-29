@@ -20,3 +20,7 @@ URL=http://localhost:8086
 ORG=Talonvalvonta
 BUCKET=energypulsereader
 TOKEN=<Token that allows writing to Org/Bucket above>
+
+[MQTT]
+URL=mosquitto
+TOPIC=EnergyPulseReaderData

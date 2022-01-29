@@ -1,9 +1,14 @@
 version: "3.9"
 
+networks:
+  metrics:
+    external: true
+    name: influxdb_metrics
+
 services:
   energy-pulse-reader:
     privileged: true
-    network_mode: host
+    networks: [metrics]
     image: energy-pulse-reader:latest
     restart: always
     container_name: energy-pulse-reader

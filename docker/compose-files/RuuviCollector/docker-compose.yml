@@ -1,5 +1,7 @@
 version: "3.9"
 
+# Should this also be in influxdb network instead of host? Then we could connect with influxdb and not with localhost in ruuvi-collector.properties
+
 services:
   ruuvi-collector:
     privileged: true
