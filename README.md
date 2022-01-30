@@ -18,6 +18,7 @@ Grafanan kojelaudat julkaistaan tasaisin v채liajoin ulkopuoliseen j채rjestelm채�
   - Alert notifier autoprovisioitumaan (setupattu ohjeiden mukaan, mutta https://community.grafana.com/t/provisioning-contact-points/56281/3)
   - Lokitus konteilta? H채lytykset niist채? InfluxDB ja MQTT metriikat? 
 - RUUVI
+  - RuuviCollector samaan influxdb-networkkiin kuin muutkin
   - Saunan ruuvitagille puinen kotelo (printattu pehmenee liikaa)
   - Retentiopolicyn ja downsamplaamisen suunnittelu, mit채 oikeastaan halutaan?
   - Alerttien konffaaminen

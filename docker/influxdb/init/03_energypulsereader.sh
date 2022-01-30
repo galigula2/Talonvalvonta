@@ -6,4 +6,4 @@ influx bucket create -n energypulsereader --org-id ${DOCKER_INFLUXDB_INIT_ORG_ID
 
 # Create auth token that allows writing to the bucket (used later)
 bucketId=$(influx bucket list -n energypulsereader --hide-headers | cut -c1-16)
-influx auth create --org-id ${DOCKER_INFLUXDB_INIT_ORG_ID} --write-bucket ${bucketId} -d "EnergyPulseReader user write access to energypulsereader bucket"
+influx auth create --org-id ${DOCKER_INFLUXDB_INIT_ORG_ID} --write-bucket ${bucketId} --read-bucket ${bucketId} -d "EnergyPulseReader user write/read access to energypulsereader bucket"
