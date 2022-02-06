@@ -1,6 +1,7 @@
 version: "3.9"
 
-# Should this also be in influxdb network instead of host? Then we could connect with influxdb and not with localhost in ruuvi-collector.properties
+# NOTE: We use host network stack here since couldn't get the container to work while using Docker-internal networking
+#       If `network_mode: host` is not defined reading from `hcidump` does not work for some reason.
 
 services:
   ruuvi-collector:

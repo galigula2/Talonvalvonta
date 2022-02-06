@@ -8,31 +8,30 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
 
 ## Next steps (Korkean tason TODO't)
 - YLEISET
-  - Kaikki TODO't reposta
-  - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
   - [Dashboardin snapshotin publishaaminen](https://grafana.com/docs/grafana/latest/sharing/share-dashboard/#publish-a-snapshot)
     - Tämä riittää nyt, eri juttu sitten jos halutaan jotain laajempaa kotiautomaatiota tai kameroita tarjota
-  - Tietokannan varmuuskopioinnin valmistelu
-  - Network/Docker watchdog käynnistämään uudestaan tarvittaessa ([ohjeet](https://www.meazurem.com/blog/raspberry-pi-with-network-watchdog/))
-  - Perustason alerit (esim. CPU Temp)
   - Alert notifier autoprovisioitumaan (setupattu ohjeiden mukaan, mutta https://community.grafana.com/t/provisioning-contact-points/56281/3)
+  - Network/Docker watchdog käynnistämään uudestaan tarvittaessa ([ohjeet](https://www.meazurem.com/blog/raspberry-pi-with-network-watchdog/))
+  - Kaikki TODO't reposta
+  - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
+  - Tietokannan varmuuskopioinnin valmistelu
+  - Perustason alerit (esim. CPU Temp)
   - Lokitus konteilta? Hälytykset niistä? InfluxDB ja MQTT metriikat? 
+  . Hälytykset puuttuvista metriikoista?, Mitkä arvot näytetään punaisella? keltaisella jne?
 - RUUVI
-  - RuuviCollector samaan influxdb-networkkiin kuin muutkin
   - Saunan ruuvitagille puinen kotelo (printattu pehmenee liikaa)
   - Retentiopolicyn ja downsamplaamisen suunnittelu, mitä oikeastaan halutaan?
-  - Alerttien konffaaminen
+  - Alerttien konffaaminen, Mitkä arvot näytetään punaisella? keltaisella jne?
 - SÄHKÖMITTAUS
   - Energiakulutus - Tänään dashboardissa on edelleen jotain häikkää, ei suostu tottelemaan tiukkoja rajoja
   - Retentiopolicyn ja downsamplaamisen suunnittelu, mitä oikeastaan halutaan?
-  - Mitkä kulutukset näytetään punaisella? keltaisella jne?
-  - Alerttien konffaaminen
+  - Alerttien konffaaminen, Mitkä arvot näytetään punaisella? keltaisella jne?
 - LÄMMÖNVAIHDIN
   - Osahankinnat ja kaapelin valmistus
   - Kaapelin kytkeminen Oumaniin
   - Retentiopolicyn ja downsamplaamisen suunnittelu, mitä oikeastaan halutaan?
   - TaloLoggerin valmistelu ja käyttöönotto
-  - Alerttien konffaaminen (mitä tulee suoraan Oumanilta?)
+  - Alerttien konffaaminen (mitä tulee suoraan Oumanilta?), Mitkä arvot näytetään punaisella? keltaisella jne?
 
 # Rasp berry PI 4 Model B
 

@@ -501,11 +501,11 @@
             "type": "influxdb",
             "uid": "P5697886F9CA74929"
           },
-          "query": "import \"date\"\r\nimport \"strings\"\r\nimport \"experimental\"\r\n\r\n// Query energy readings back -X months from current day. Takes current day/time in to account and returns full months back and current month up until current time.\r\n// -0mo means only current month, -1d means this month and previous etc.\r\nfrom(bucket: \"energypulsereader\")\r\n  |> range(start: duration(v: uint(v: experimental.addDuration(d: -0mo, to: date.truncate(t: today(), unit: 1mo))) - uint(v: now())), stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"consumption\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"electricity_15min_kWh\")\r\n  |> aggregateWindow(every: 1mo, offset: -1s, fn: sum, createEmpty: false)\r\n  |> map(fn: (r) => ({ r with date: strings.substring(v: string(v: date.truncate(t: r._time, unit: 1mo)), start: 0, end: 7) }))",
+          "query": "import \"date\"\r\nimport \"strings\"\r\nimport \"experimental\"\r\n\r\n// Query energy readings back -X months from current day. Takes current day/time in to account and returns full months back and current month up until current time.\r\n// -0mo means only current month, -1d means this month and previous etc.\r\nfrom(bucket: \"energypulsereader\")\r\n  |> range(start: duration(v: uint(v: experimental.addDuration(d: -5mo, to: date.truncate(t: today(), unit: 1mo))) - uint(v: now())), stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"consumption\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"electricity_15min_kWh\")\r\n  |> aggregateWindow(every: 1mo, offset: -1s, fn: sum, createEmpty: false)\r\n  |> map(fn: (r) => ({ r with date: strings.substring(v: string(v: date.truncate(t: r._time, unit: 1mo)), start: 0, end: 7) }))",
           "refId": "A"
         }
       ],
-      "title": "Kuukausikulutus (kuluva)",
+      "title": "Kuukausikulutus",
       "type": "barchart"
     },
     {
