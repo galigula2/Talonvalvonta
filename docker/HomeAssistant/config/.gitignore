@@ -1,0 +1,16 @@
+.HA_VERSION
+.homekit.state
+.storage
+!.storage/lovelace
+core
+custom_components
+*.log
+*.log.1
+*.log.fault
+*.db
+tts
+/secrets.yaml
+*.db-shm
+*.db-wal
+.ssl
+rtsp2webrtc_v1_armv7
