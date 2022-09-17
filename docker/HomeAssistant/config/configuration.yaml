@@ -13,33 +13,16 @@ scene: !include scenes.yaml
 
 # Power reading through MQTT
 mqtt:
-  sensor:
-    - name: HousePowerConsumption
-      state_topic: "EnergyPulseReaderData"
-      unit_of_measurement: "kW"
-      device_class: "power"
-      value_template: "{{ value_json.electricityPowerkW }}"
-
-# Add InfluxDB without any data replication (will be used only to get sensor data to HA)
-influxdb:
-  exclude:
-    entity_globs: “*”
+  sensor: !include_dir_merge_list mqtt_sensors/
+    
 
 sensor:
-#influx sensors
-# https://community.home-assistant.io/t/import-influxdb-data-as-sensor-in-home-assistant/216722/3
-  - platform: influxdb
-    api_version: 2
-    host: localhost
-    port: 8086
-    token: !secret influxdb_token
-    organization: Talonvalvonta
-    bucket: ruuvi
-    queries_flux:
-      - name: "RoomTemperatures"
-        range_start: "-12h"
-        unit_of_measurement: "°C"
-        value_template: "{{ value }}"
-        query: >
-          filter(fn: (r) => r["_measurement"] == "ruuvi_measurements")
-          |> filter(fn: (r) => r["_field"] == "temperature")
+
+# Riemann Sum Integral of the energy consumption from power reading
+# https://www.home-assistant.io/integrations/integration
+  - platform: integration
+    source: sensor.HousePowerConsumption
+    name: HouseEnergyConsumption
+    unit_prefix: k
+    round: 2 
+

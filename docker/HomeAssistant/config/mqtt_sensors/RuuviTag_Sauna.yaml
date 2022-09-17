@@ -1,0 +1,10 @@
+- name: RuuviTag_Sauna_Temperature
+  state_topic: "RuuviPublisherData/Sauna"
+  unit_of_measurement: "°C"
+  device_class: "temperature"
+  value_template: "{{ value_json.temperature|float|round(1) }}"
+- name: RuuviTag_Sauna_Humidity
+  state_topic: "RuuviPublisherData/Sauna"
+  unit_of_measurement: "%"
+  device_class: "humidity"
+  value_template: "{{ value_json.humidity|float|round(1) }}"

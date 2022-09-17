@@ -9,9 +9,9 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
 ## Next steps (Korkean tason TODO't)
 - HOME ASSISTANT
   - Salasanat sun muut tulemaan environmenteista kuten muillakin? Vai pitäydytäänkä tässä manuaalisessa setupissa?
-  - Ruuvitagien kamat näkyviin
-  - Kulutuslukemat näkyviin
   - Telegrafin kamat näkyviin
+  - INfluxdb kokonaan pois?
+  - MQTT salasana!!!
 - YLEISET
   - [Dashboardin snapshotin publishaaminen](https://grafana.com/docs/grafana/latest/sharing/share-dashboard/#publish-a-snapshot)
     - Tämä riittää nyt, eri juttu sitten jos halutaan jotain laajempaa kotiautomaatiota tai kameroita tarjota
@@ -21,8 +21,8 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
   - docker-kansion alle README joka selittää mm. data-kansion tarkoituksen
   - Tietokannan varmuuskopioinnin valmistelu
   - Perustason alerit (esim. CPU Temp)
-  - Lokitus konteilta? Hälytykset niistä? InfluxDB ja MQTT metriikat? 
   . Hälytykset puuttuvista metriikoista?, Mitkä arvot näytetään punaisella? keltaisella jne?
+
 - RUUVI
   - Saunan ruuvitagille puinen kotelo (printattu pehmenee liikaa)
   - Retentiopolicyn ja downsamplaamisen suunnittelu, mitä oikeastaan halutaan?
@@ -199,26 +199,24 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
 - Insipiraatio: https://medium.com/@ville.alatalo/oma-s%C3%A4%C3%A4asema-ruuvitagilla-ja-grafanalla-25c823f20a20
   - Erotuksena tähän, uudet RuuviTagit lähettävät automaattisesti RAWv2-formaattia -> koteloita ei tarvitse avata
   - Jokaisen huonetermostaatin yhteyteen oma RuuviTag + muutama muu huone missä ei ole termostaattia (esim. kodinhoito)
-- Käytetään RuuviCollector-apuohjelmaa (https://github.com/Scrin/RuuviCollector)
+- Käytetään ruuvi-mqtt-data-publisher-apuohjelmaa (https://github.com/troinine/ruuvi-mqtt-data-publisher)
   - Ajetaan Dockerin sisällä managementin helpottamiseksi
-  - Kirjoitetaan InfluxDB:hen [V1 Compatibility API](https://docs.influxdata.com/influxdb/v2.1/reference/api/influxdb-1x):a hyödyntäen
+  - Lähetetään tiedot Mosquite MQTT:n yli HomeAssistantille
 - Käyttöönotto
-  - Aseta salasana automaattisesti luodulle ruuvi-writer-käyttäjälle komennolla `docker exec -it influxdb influx v1 auth set-password --username ruuvi-writer --password <RuuviWriterPasswordToSet>`
   - Valmistele Docker-paketti paikallisesti
-    - Mene kansioon `Talonvalvonta/src/RuuviCollector`
-    - Luo Docker-paketti komennolla `docker build -t ruuvi-collector .`
-    - Tähän ei pitäisi juuri joutua koskemaan ellei RuuviCollectorista tule uutta versiota
+    - Mene kansioon `Talonvalvonta/src/ruuvi-mqtt-data-publisher`
+    - Luo Docker-paketti komennolla `docker build -t ruuvi-mqtt-data-publisher .`
+    - Tähän ei pitäisi juuri joutua koskemaan ellei data publisherista tule uutta versiota
   - Säädä asetukset
-    - Kopioi kansiossa `Talonvalvonta/docker/RuuviCollector` löytyvät `ruuvi-collector.properties.template` ja `ruuvi-names.properties.template` tiedostot samaan kansioon ilman `.template`-päätteitä
-    - Muokkaa `Talonvalvonta/src/RuuviCollector/ruuvi-collector.properties` tiedostoa
-      - `influxPassword=<RuuviWriterPasswordToSet>` (Salasana sama kuin minkä asetit yllä)
-    - Muokkaa `Talonvalvonta/src/RuuviCollector/ruuvi-names.properties` tiedostoa
+    - Kopioi kansiossa `Talonvalvonta/docker/ruuvi-mqtt-data-publisher` löytyvät `ruuvi-collector.properties.template` ja `ruuvi-names.properties.template` tiedostot samaan kansioon ilman `.template`-päätteitä
+    - Muokkaa `Talonvalvonta/src/ruuvi-mqtt-data-publisher/ruuvi-collector.properties` tiedostoa
+    - Muokkaa `Talonvalvonta/src/ruuvi-mqtt-data-publisher/ruuvi-names.properties` tiedostoa
       - Listaa tänne kaikki ne ruuvitagit joiden dataa olet lukemassa
       - Formaatti on `MAC-osoite`=`Nimi` (Saa olla ääkkösiä ja välilyöntejä)
   - Käynnistä palvelut (ensimmäisellä kerralla, jatkossa pitäisi käynnistyä Raspin käynnistyessä)
-    - Mene hakemistoon `Talonvalvonta/docker/compose-files/RuuviCollector/`
+    - Mene hakemistoon `Talonvalvonta/docker/compose-files/ruuvi-mqtt-data-publisher/`
     - Aja `docker-compose up -d` joka käynnistää palvelut "detached"-moodissa
-    - Tarkista, että `ruuvi-collector` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
+    - Tarkista, että `ruuvi-mqtt-data-publisher` palvelu käynnistyi ajamalla `docker ps` ja katso, että se pysyy pystyssä
 - Sopiva 3D-printattava wallmount löytyy [Thingiversestä](https://www.thingiverse.com/thing:3535838)
 - Ruuvi Pro:t pystyvät kuuntelemaan myös ulkopuolista anturia
   - Tässä olisi mahdollista tehdä talon sisällä termostaatitarkkailua, mutta voi mennä säätämiseksi

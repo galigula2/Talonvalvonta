@@ -7,3 +7,6 @@
 [submodule "src/mqtt-datasource"]
 	path = src/mqtt-datasource
 	url = https://github.com/grafana/mqtt-datasource.git
+[submodule "src/ruuvi-mqtt-data-publisher"]
+	path = src/ruuvi-mqtt-data-publisher
+	url = https://github.com/troinine/ruuvi-mqtt-data-publisher.git

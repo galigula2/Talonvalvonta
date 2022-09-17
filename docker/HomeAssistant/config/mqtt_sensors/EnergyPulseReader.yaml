@@ -1,0 +1,5 @@
+- name: HousePowerConsumption
+  state_topic: "EnergyPulseReaderData"
+  unit_of_measurement: "W"
+  device_class: "power"
+  value_template: "{{ value_json.electricityPowerkW|float|round(4)*1000|int }}"

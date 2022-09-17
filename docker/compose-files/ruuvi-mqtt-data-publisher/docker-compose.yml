@@ -1,0 +1,16 @@
+version: "3.9"
+
+# NOTE: We use host network stack here since couldn't get the container to work while using Docker-internal networking
+#       If `network_mode: host` is not defined reading from `hcidump` does not work for some reason.
+
+services:
+  ruuvi-mqtt-data-publisher:
+    privileged: true
+    network_mode: host
+    image: ruuvi-mqtt-data-publisher:latest
+    restart: always
+    container_name: ruuvi-mqtt-data-publisher
+    volumes:
+      - $HOME/Talonvalvonta/docker/ruuvi-mqtt-data-publisher/ruuvi-collector.properties:/app/ruuvi-collector.properties:ro
+      - $HOME/Talonvalvonta/docker/ruuvi-mqtt-data-publisher/ruuvi-names.properties:/app/ruuvi-names.properties:ro
+

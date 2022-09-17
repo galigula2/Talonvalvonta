@@ -2,18 +2,13 @@
 # Copy this file as "ruuvi-collector.properties" to the same directory as the collector application itself is and
 # uncomment the lines and change the values, if you need
 
-# Base url to connect to, including protocol, hostname or ip address, and port
-influxUrl=http://localhost:8086
+mqtt.brokerUrls=tcp://localhost:1883
+#mqtt.username=some-username
+#mqtt.password=secret
+mqtt.topic=RuuviPublisherData
+mqtt.clientId=ruuvi-mqtt-data-publisher
 
-# InfluxDB Database to use for measurements
-influxDatabase=ruuvi
-
-# InfluxDB measurement name to use for measurements
-influxMeasurement=ruuvi_measurements
-
-# Username and password to use in influxdb. These can be ignored if you don't use authentication in InfluxDB.
-influxUser=ruuvi-writer
-influxPassword=<RuuviWriterPassword>
+updateInterval=PT1M00S
 
 # Minimum interval in milliseconds for measurements per measurement type per tag.
 # This is to avoid saving too many measurements especially with the default firmware which sends measurements every 0.5 seconds
@@ -80,7 +75,7 @@ storage.values=extended
 #command.dump=hcidump --raw
 
 # Retention policy to use (note: you must create it yourself)
-influxRetentionPolicy=autogen
+#influxRetentionPolicy=autogen
 
 # Use gzip, saves bandwidth at minimal CPU cost
 #influxGzip=true
