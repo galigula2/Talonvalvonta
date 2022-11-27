@@ -26,3 +26,29 @@ sensor:
     unit_prefix: k
     round: 2 
 
+# Discord notification channel
+notify:
+  - platform: group
+    name: discord_notify_alert_group
+    services:
+      - service: !secret discord_app_name_lowercase
+        data:
+          target: [ !secret discord_alert_channel ]
+
+
+
+template:
+  - binary_sensor:
+      - name: "SaunaValmis"
+        state: "{{ states('sensor.ruuvitag_sauna_temperature') | float(default=0.0) > 50.0 }}"
+
+  
+alert:
+  saunavalmis:
+    name: SaunaValmis
+    entity_id: binary_sensor.saunavalmis
+    repeat: 120 
+    can_acknowledge: false
+    skip_first: false
+    message: "Sauna on valmis!"
+    notifiers: discord_notify_alert_group

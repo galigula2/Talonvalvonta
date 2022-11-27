@@ -11,7 +11,8 @@ Grafanan kojelaudat julkaistaan tasaisin väliajoin ulkopuoliseen järjestelmä�
   - Salasanat sun muut tulemaan environmenteista kuten muillakin? Vai pitäydytäänkä tässä manuaalisessa setupissa?
   - Telegrafin kamat näkyviin
   - INfluxdb kokonaan pois?
-  - MQTT salasana!!!
+  - MQTT salasana!!! 
+  - HA Cloud?
 - YLEISET
   - [Dashboardin snapshotin publishaaminen](https://grafana.com/docs/grafana/latest/sharing/share-dashboard/#publish-a-snapshot)
     - Tämä riittää nyt, eri juttu sitten jos halutaan jotain laajempaa kotiautomaatiota tai kameroita tarjota
