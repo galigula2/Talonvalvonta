@@ -40,7 +40,11 @@ notify:
 template:
   - binary_sensor:
       - name: "SaunaValmis"
-        state: "{{ states('sensor.ruuvitag_sauna_temperature') | float(default=0.0) > 50.0 }}"
+        state: "{{ states('sensor.ruuvitag_sauna_temperature') | float(default=0.0) > 40.0 }}"
+      - name: "JaakaappiLammin"
+        state: "{{ states('sensor.ruuvitag_jaakaappi_temperature') | float(default=0.0) > 10.0 }}"
+      - name: "PakastinLammin"
+        state: "{{ states('sensor.ruuvitag_pakastin_temperature') | float(default=0.0) > -15.0 }}"
 
   
 alert:
@@ -51,4 +55,20 @@ alert:
     can_acknowledge: false
     skip_first: false
     message: "Sauna on valmis!"
+    notifiers: discord_notify_alert_group
+  jaakaappilammin:
+    name: JaakaappiLammin
+    entity_id: binary_sensor.jaakaappilammin
+    repeat: 120 
+    can_acknowledge: false
+    skip_first: false
+    message: "Jääkaappi on lämmin!"
+    notifiers: discord_notify_alert_group
+  pakastinlammin:
+    name: PakastinLammin
+    entity_id: binary_sensor.pakastinlammin
+    repeat: 120 
+    can_acknowledge: false
+    skip_first: false
+    message: "Pakastin on lämmin!"
     notifiers: discord_notify_alert_group
