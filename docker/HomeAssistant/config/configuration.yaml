@@ -35,7 +35,7 @@ notify:
         data:
           target: [ !secret discord_alert_channel ]
 
-
+# TODO: Move these to folders?
 
 template:
   - binary_sensor:
@@ -62,7 +62,7 @@ alert:
     repeat: 120 
     can_acknowledge: false
     skip_first: false
-    message: "Jääkaappi on lämmin!"
+    message: "Jääkaappi on lämmin!  {{ states('sensor.ruuvitag_jaakaappi_temperature') }}{{ state_attr('sensor.ruuvitag_jaakaappi_temperature', 'unit_of_measurement') }}"
     notifiers: discord_notify_alert_group
   pakastinlammin:
     name: PakastinLammin
@@ -70,5 +70,5 @@ alert:
     repeat: 120 
     can_acknowledge: false
     skip_first: false
-    message: "Pakastin on lämmin!"
+    message: "Pakastin on lämmin!  {{ states('sensor.ruuvitag_pakastin_temperature') }}{{ state_attr('sensor.ruuvitag_pakastin_temperature', 'unit_of_measurement') }}"
     notifiers: discord_notify_alert_group
