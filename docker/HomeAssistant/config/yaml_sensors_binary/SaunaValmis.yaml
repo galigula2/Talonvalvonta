@@ -1,0 +1,2 @@
+- name: "SaunaValmis"
+  state: "{{ states('sensor.ruuvitag_sauna_temperature') | float(default=0.0) > 40.0 }}"

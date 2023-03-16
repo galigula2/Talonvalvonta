@@ -1,0 +1,16 @@
+jaakaappilammin:
+  name: JaakaappiLammin
+  entity_id: binary_sensor.jaakaappilammin
+  repeat: 120
+  can_acknowledge: false
+  skip_first: false
+  message: "Jääkaappi on lämmin! {{ states('sensor.ruuvitag_jaakaappi_temperature') }}{{ state_attr('sensor.ruuvitag_jaakaappi_temperature', 'unit_of_measurement') }}"
+  notifiers: discord_notify_alert_group
+pakastinlammin:
+  name: PakastinLammin
+  entity_id: binary_sensor.pakastinlammin
+  repeat: 120
+  can_acknowledge: false
+  skip_first: false
+  message: "Pakastin on lämmin! {{ states('sensor.ruuvitag_pakastin_temperature') }}{{ state_attr('sensor.ruuvitag_pakastin_temperature', 'unit_of_measurement') }}"
+  notifiers: discord_notify_alert_group

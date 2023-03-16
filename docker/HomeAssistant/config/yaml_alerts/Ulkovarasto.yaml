@@ -1,0 +1,32 @@
+pajakylma:
+  name: PajaKylma
+  entity_id: binary_sensor.pajakylma
+  repeat: 120
+  can_acknowledge: false
+  skip_first: false
+  message: "Paja on kylmä! {{ states('sensor.ruuvitag_paja_temperature') }}{{ state_attr('sensor.ruuvitag_paja_temperature', 'unit_of_measurement') }}"
+  notifiers: discord_notify_alert_group
+majakylma:
+  name: MajaKylma
+  entity_id: binary_sensor.majakylma
+  repeat: 120
+  can_acknowledge: false
+  skip_first: false
+  message: "Maja on kylmä! {{ states('sensor.ruuvitag_maja_temperature') }}{{ state_attr('sensor.ruuvitag_maja_temperature', 'unit_of_measurement') }}"
+  notifiers: discord_notify_alert_group
+pajalammin:
+  name: PajaLammin
+  entity_id: binary_sensor.pajalammin
+  repeat: 120
+  can_acknowledge: false
+  skip_first: false
+  message: "Paja on lämmin! {{ states('sensor.ruuvitag_paja_temperature') }}{{ state_attr('sensor.ruuvitag_paja_temperature', 'unit_of_measurement') }}"
+  notifiers: discord_notify_alert_group
+majalammin:
+  name: MajaLammin
+  entity_id: binary_sensor.majalammin
+  repeat: 120
+  can_acknowledge: false
+  skip_first: false
+  message: "Maja on lämmin! {{ states('sensor.ruuvitag_maja_temperature') }}{{ state_attr('sensor.ruuvitag_maja_temperature', 'unit_of_measurement') }}"
+  notifiers: discord_notify_alert_group

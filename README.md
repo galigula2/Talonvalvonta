@@ -222,7 +222,7 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
 - Ruuvi Pro:t pystyvät kuuntelemaan myös ulkopuolista anturia
   - Tässä olisi mahdollista tehdä talon sisällä termostaatitarkkailua, mutta voi mennä säätämiseksi
 
-## Sähkönkulutus LED-indikaattorista
+## Sähkömittarin lukeminen 
 - Perusajatus täältä: https://hyotynen.iki.fi/kotiautomaatio/sahkonkulutuksen-seurantaa/
 - Valmistele Docker-paketti paikallisesti
   - Mene kansioon `Talonvalvonta/src/EnergyPulseReader`
@@ -239,8 +239,8 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
   - Haetaan sopivat parametrit ajamalla `python3 test/electricity.py` laitteella ja varmistamalla, että mittausvälin aikana luetut pulssit LED:n välähdyksiä. 
     - Parametrit säädetään suoraan scriptin sisältä.
     - `BCM_CHANNEL`: Mistä kanavasta signaali luetaan (Tässä käytetään GPIO24:sta niin arvoksi tulee `24`)
-    - `RECORDING_INTERVAL_SECONDS`: Mittausikkunan pituus sekunteissa. Esim `5`
-    - `PULSES_PER_KWH`: Sähkömittarin kyljestä luetu arvo kuinka monta pulssia vastaa yhtä kilowattituntia. Itsellä oli `10000` 
+    - `RECORDING_INTERVAL_SECONDS`: Mittausikkunan pituus sekunteissa. Esim `10`
+    - `PULSES_PER_KWH`: Sähkömittarin kyljestä luetu arvo kuinka monta pulssia vastaa yhtä kilowattituntia. Itsellä oli `1000` 
     - `BOUNCE_MS`: Huomioidaan digitaalisignaalin huojunta tilan vaihtuessa laittamalla minimiväli signaaleille millisekunneissa. Sopiva arvo löytyy kokeilemalla, mutta itsellä >=3ms arvot näyttivät toimivan. Laitoin arvoksi `5` varmuuden vuoksi joka pitäisi olla riittävän pieni kaikille tarvittaville kulutuslukemille (5ms maksimiväli tarkoittaa itsellä n.71kW maksimi mitattavaa kulutusta mikä ei pitäisi koskaan tulla vastaan)
   - Säädä asetukset
     - Kopioi kansiossa `Talonvalvonta/docker/EnergyPulseReader` löytyvä `energypulsereader.ini.example` tiedosto samaan kansioon ilman `.template`-päätteitä
@@ -263,7 +263,5 @@ Ohjelmistot on hyvä asentaa ja ottaa käyttöön tässä järjestyksessä. Pä�
 
 ## Swegon Casa R120 (???)
 
-## Tuleva ilmalämpöpumppu (???)
-- Mitsibishin pumpuissa on MELCloud jolla saadaan tietoa ulos pumpusta. Sitä voi tutkia esim tällä https://github.com/vilppuvuorinen/pymelcloud
-- Keinoja löytyy myös tutkia asiaa suoraan pumpulta mutta vaatii temppuiluja https://chrdavis.github.io/hacking-a-mitsubishi-heat-pump-Part-1/
-- Mm. Gree:lle on tehty myös temppuja suoraan kaukosäätimen asetuksia reverse-engineeraamalla https://www.dudley.nu/projects/heatpump-control/
+## Tuleva ilmalämpöpumppu 
+- Pumpuiksi valikoitui Mitsibushin pumput jotka saa suoraan julkiverkon yli kiinni HomeAssistanttiin yhdistämällä MELCloudin kautta

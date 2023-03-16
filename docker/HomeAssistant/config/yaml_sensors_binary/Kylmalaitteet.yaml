@@ -1,0 +1,4 @@
+- name: "JaakaappiLammin"
+  state: "{{ states('sensor.ruuvitag_jaakaappi_temperature') | float(default=0.0) > 10.0 }}"
+- name: "PakastinLammin"
+  state: "{{ states('sensor.ruuvitag_pakastin_temperature') | float(default=0.0) > -15.0 }}"
