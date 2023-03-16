@@ -14,3 +14,4 @@ tts
 *.db-wal
 .ssl
 rtsp2webrtc_v1_armv7
+*.tar

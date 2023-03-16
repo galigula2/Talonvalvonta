@@ -10,6 +10,10 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
+input_boolean:
+  outbulding_heating_on:
+    name: Outbuiding separate heater is on
+    icon: mdi:radiator
 
 mqtt:
   sensor: !include_dir_merge_list yaml_sensors_mqtt/

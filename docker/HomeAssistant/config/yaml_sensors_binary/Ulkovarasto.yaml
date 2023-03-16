@@ -3,6 +3,7 @@
 - name: "MajaKylma"
   state: "{{ states('sensor.ruuvitag_maja_temperature') | float(default=0.0) < 7.0 }}"
 - name: "PajaLammin"
-  state: "{{ states('sensor.ruuvitag_paja_temperature') | float(default=0.0) > 13.0 }}"
+  state: "{{ is_state('input_boolean.outbulding_heating_on', 'on') and (states('sensor.ruuvitag_paja_temperature') | float(default=0.0) > 13.0) }}"
 - name: "MajaLammin"
-  state: "{{ states('sensor.ruuvitag_maja_temperature') | float(default=0.0) > 13.0 }}"
+  state: "{{ is_state('input_boolean.outbulding_heating_on', 'on') and (states('sensor.ruuvitag_maja_temperature') | float(default=0.0) > 13.0) }}"
+
